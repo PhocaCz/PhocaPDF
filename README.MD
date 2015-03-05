@@ -1,0 +1,1 @@
+Phoca PDF is Joomla! CMS extension. Component which renders article content as PDF document.
