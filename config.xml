@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+<fields addfieldpath="/administrator/components/com_phocapdf/models/fields">
+	<fieldset name="display" label="COM_PHOCAPDF_CONFIG_HEAD_DISPLAY_LABEL">
+		
+		<field name="display_editor" type="list" default="1" label="COM_PHOCAPDF_FIELD_DISPLAY_EDITOR_LABEL" description="COM_PHOCAPDF_FIELD_DISPLAY_EDITOR_DESC">
+			<option value="1">COM_PHOCAPDF_YES</option>
+			<option value="0">COM_PHOCAPDF_NO</option>
+		</field>
+	</fieldset>
+
+
+
+<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+	<field name="rules" type="rules" component="com_phocapdf" filter="rules" label="COM_PHOCAPDF_FIELD_JCONFIG_PERMISSIONS_LABEL" section="component" description="CCOM_PHOCAPDF_FIELD_JCONFIG_PERMISSIONS_DESC"/>
+</fieldset>
+
+</fields>
+</config>

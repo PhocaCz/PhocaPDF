@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" type="component" version="3">
+	<name>com_phocapdf</name>
+	<author>Jan Pavelka (www.phoca.cz)</author>
+	<creationDate>28/07/2014</creationDate>
+	<authorEmail></authorEmail>
+	<authorUrl>www.phoca.cz</authorUrl>
+	<copyright>Jan Pavelka</copyright>
+	<license>GNU/GPL</license>
+	<version>3.0.2</version>
+	<description>Phoca PDF</description>
+	<scriptfile>install/script.php</scriptfile>
+
+	<update>
+		<schemas/>
+	</update>
+
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>metadata.xml</filename>
+		<filename>phocapdf.php</filename>
+		<folder>views</folder>
+	</files>
+
+	<media destination="com_phocapdf" folder="media">
+		<filename>index.html</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+	</media>
+
+	<languages>
+		<language tag="en-GB" client="site">language/en-GB/en-GB.com_phocapdf.ini</language>
+		<language tag="en-GB" client="site">language/en-GB/en-GB.com_phocapdf.sys.ini</language>
+	</languages>
+
+	<administration>
+		<menu img="media/com_phocapdf/images/administrator/icon-16-ppdf-menu.png" link="option=com_phocapdf">COM_PHOCAPDF</menu>
+		<submenu>
+			<menu img="media/com_phocapdf/images/administrator/icon-16-ppdf-cp.png" alt="COM_PHOCAPDF_CONTROLPANEL" view="phocapdfcp" link="option=com_phocapdf">COM_PHOCAPDF_CONTROLPANEL</menu>
+			<menu img="media/com_phocapdf/images/administrator/icon-16-ppdf-pdf.png" alt="COM_PHOCAPDF_PLUGINS" view="phocapdfplugins" link="option=com_phocapdf&amp;view=phocapdfplugins">COM_PHOCAPDF_PLUGINS</menu>
+			<menu img="media/com_phocapdf/images/administrator/icon-16-ppdf-font.png" alt="COM_PHOCAPDF_FONTS" view="phocapdffonts" link="option=com_phocapdf&amp;view=phocapdffonts">COM_PHOCAPDF_FONTS</menu>
+			<menu img="media/com_phocapdf/images/administrator/icon-16-ppdf-info.png" alt="COM_PHOCAPDF_INFO" view="phocapdfinfo" link="option=com_phocapdf&amp;view=phocapdfinfo">COM_PHOCAPDF_INFO</menu>
+		</submenu>
+
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>phocapdf.php</filename>
+			<filename>phocapdf.xml</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>files</folder>
+			<folder>fonts</folder>
+			<folder>help</folder>
+			<folder>helpers</folder>
+			<folder>install</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+
+		<languages>
+			<language tag="en-GB">language/en-GB/en-GB.com_phocapdf.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_phocapdf.sys.ini</language>
+		</languages>
+
+	</administration>
+</extension>

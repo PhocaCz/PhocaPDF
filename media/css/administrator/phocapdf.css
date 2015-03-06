@@ -1,0 +1,376 @@
+/* Columns*/
+/* Joomla! design bug */
+#adminForm {
+	margin: 0 0 0 0 !important;
+}
+#toolbar.btn-toolbar {
+	
+}
+
+.ph-image {
+	text-align:center;
+	width: 10%;
+}
+.ph-title {
+	width: 60%;
+}
+
+.ph-title-stat {
+	width: 10%;
+}
+.ph-filename-stat {
+	width: 50%;
+}
+
+.ph-map {
+	width: 20%;
+}
+
+.ph-title-short {
+	width: 30%;
+}
+.ph-filename-long {
+	width: 50%;
+}
+.ph-count {
+	width: 5%;
+}
+
+.ph-page {
+	width: 5%;
+}
+
+.ph-functions,
+.ph-id,
+.ph-check,
+.ph-ordering {
+	width: 1%;
+}
+
+.ph-plugincode-td {
+color: #999;
+}
+
+.ph-right {
+	text-align: right !important;
+}
+.ph-center {
+	text-align: center !important;
+}
+
+.ph-uploaduser {
+	width: 7%;
+	white-space: nowrap;
+}
+.ph-owner,
+.ph-rating,
+.ph-hits,
+.ph-language,
+.ph-published,
+.ph-approved {
+	width: 5%;
+}
+.ph-user,
+.ph-parentcattitle {
+	width: 15%;
+}
+.ph-filename,
+.ph-access {
+	width: 10%;
+}
+
+
+.ph-multiple-table tr td.ph-img-table {
+	text-align: center;
+	padding-top: 4px;
+}
+.ph-icon {
+	margin: 0;
+	padding: 5px;
+	float: left;
+	margin: 0 auto;
+	text-align: center;
+}
+.ph-icon-inside.thumbnail {
+	width: 100px;
+	height: 100px;
+	-webkit-border-radius: 0px;  
+    border-radius: 0px;
+	background: #fdfdfd;
+}
+.ph-icon-inside.thumbnail img {
+	margin-top: 10px;
+	margin-bottom: -12px;
+}
+.ph-icon-inside.thumbnail span {
+}
+
+.ph-head-form-small,
+.ph-head-form {
+	font-weight: bold;
+}
+.ph-head-form {
+		margin-bottom: 10px;
+}
+.ph-in {
+	padding: 5px;
+}
+
+.ph-w80 {
+	width: 80%;
+}
+.dl-horizontal.ph-input dt {
+	float: left;
+	clear: left;
+	margin-right: 20px;
+	text-align: left;
+	width: auto;
+}
+.dl-horizontal.ph-input dd{
+}
+
+.ph-cpanel-left {
+	float: left;
+	width: 50%;
+}
+.ph-cpanel-right {
+	float: right;
+	width: 50%;
+}
+
+#configTabs li a img {
+	margin-top: -3px;
+}
+
+.ph-head-form-small,
+.ph-head-form {
+	font-weight: bold;
+}
+.ph-head-form {
+		margin-bottom: 10px;
+}
+.ph-in {
+	padding: 5px;
+}
+
+.ph-w80 {
+	width: 80%;
+}
+
+.ph-titlefont {
+	width: 95%;
+}
+.ph-delete {
+	width: 5%;
+}
+
+.dl-horizontal.ph-input dt {
+	float: left;
+	clear: left;
+	margin-right: 20px;
+	text-align: left;
+	width: auto;
+}
+.dl-horizontal.ph-input dd{
+}
+
+
+div.icon-48-phocainfo {
+	background: url('../../images/administrator/icon-48-info.png') no-repeat left;
+}
+div.icon-48-phoca {
+	background: url('../../images/administrator/icon-48-phoca.png') no-repeat left;
+}
+
+div.icon-48-phocafonts {
+	background: url('../../images/administrator/icon-48-fonts.png') no-repeat left;
+}
+
+div.icon-48-phocaplugins {
+	background: url('../../images/administrator/icon-48-plugins.png') no-repeat left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Pane */
+#phocapdf-pane div.imglbl label {
+	min-width: 140px;
+}
+
+#phocapdf-pane label {
+	min-width: 200px;
+}
+
+#phocapdf-pane select{
+	margin:2px;
+}
+
+#phocapdf-pane #editor-xtd-buttons {
+	margin-left: 200px;
+	width: 250px;
+}
+
+div.icon-48-info {
+	background: url('images/icon-48-info.png') no-repeat left;
+}
+div.icon-48-phoca {
+	background: url('images/icon-48-phoca.png') no-repeat left;
+}
+
+div.icon-48-pdf {
+	background: url('images/icon-48-pdf.png') no-repeat left;
+}
+
+div.icon-48-apdf {
+	background: url('images/icon-48-apdf.png') no-repeat left;
+}
+
+div.icon-48-font {
+	background: url('images/icon-48-font.png') no-repeat left;
+}
+
+#phocapdf-apply {
+	margin:0;
+	margin-top:10px;
+	padding-left:50px;
+	padding-top:14px;
+	height:45px;
+	width:100px;
+	position:relative;
+	float:right;
+}
+
+
+.phoca-adminform {
+	background-color: #fff;
+	border: solid 1px #d5d5d5;
+	padding:10px;
+	color: #777;
+}
+.cpanel-right {
+	color: #777;
+}
+
+#phocapdf ul.phoca-plugins-menu {
+
+	list-style-type: none;
+	padding:		0px;
+	margin: 		0px;
+z-index:			1;	
+float:left;
+position:relative;
+}
+#phocapdf ul.phoca-plugins-menu li {
+	list-style-type: 	none;
+	padding:			5px 10px 5px 10px;
+	z-index:			1;
+	
+}
+
+#phocapdf ul.phoca-plugins-menu li.current {
+	
+	list-style-type: 	none;
+	padding:			10px;
+	background:			#fbfbfb;
+	border-left:		1px solid #cdcdcd;
+	border-top:			1px solid #cdcdcd;
+	border-bottom:		1px solid #cdcdcd;
+	z-index:			1;
+	margin-right:		-1px;
+	
+	
+}
+
+#phocapdf div.phoca-plugins {
+	padding:		10px 15px 10px 15px;
+	margin:			0px;
+	background:		#fbfbfb;
+	border:			1px solid #cdcdcd;
+	z-index:		0;
+	
+}
+
+#phocapdf div.phoca-plugins div.phoca-plugins-ie {
+	height:50px;
+	
+}
+
+#phocapdf .phocapdf-hr {
+	margin-top:5px;
+	margin-bottom: 10px;
+	border-bottom:1px dotted #dfdfdf;
+}
+
+
+/* tabs */
+form {
+  margin: 0;
+  padding: 0;
+}
+
+
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+	
+}
+
+dl.tabs dt {
+	float: left;
+	padding: 4px 10px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
+	background: #f0f0f0;
+	color: #666;
+	
+}
+
+dl.tabs dt.open {
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
+	z-index: 100;
+	color: #000;
+	
+}
+
+div.current {
+	clear: both;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+	background: #ffffff;
+	
+}
+
+div.current dd {
+	padding: 0;
+	margin: 0;
+}
+
+.tab-content {
+	background: #fff;
+	margin: 0px;
+	padding: 10px;
+	margin-top: -18px;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+}
+
+.input-small-unit {
+	width: 25px;
+}
