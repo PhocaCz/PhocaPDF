@@ -6,6 +6,7 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
+defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 $app		= JFactory::getApplication();
 $option 	= $app->input->get('option');
@@ -16,8 +17,6 @@ $l['f']		= array('COM_PHOCAPDF_FONTS', 'phocapdffonts');
 $l['i']		= array('COM_PHOCAPDF_INFO', 'phocapdfinfo');
 
 // Submenu view
-//$view	= JRequest::getVar( 'view', '', '', 'string', JREQUEST_ALLOWRAW );
-//$layout	= JRequest::getVar( 'layout', '', '', 'string', JREQUEST_ALLOWRAW );
 $view	= JFactory::getApplication()->input->get('view');
 $layout	= JFactory::getApplication()->input->get('layout');
 

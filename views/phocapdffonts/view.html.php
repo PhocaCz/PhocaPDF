@@ -38,23 +38,23 @@ class PhocaPDFCpViewPhocaPDFFonts extends JViewLegacy
 	
 		
 		$this->state		= $this->get('State');
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'phocapdffonts.php';
+		require_once JPATH_COMPONENT.'/helpers/phocapdffonts.php';
 		$canDo	= PhocaPDFFontsHelper::getActions($this->t);
 		
-		JToolBarHelper::title(   JText::_( 'COM_PHOCAPDF_FONTS' ), 'font' );
+		JToolbarHelper::title(   JText::_( 'COM_PHOCAPDF_FONTS' ), 'font' );
 		
 		// Correct Joomla! problem
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = str_replace('icon-', 'phicon-', $app->JComponentTitle);
 		
-		//$bar = JToolBar::getInstance( 'toolbar' );
+		//$bar = JToolbar::getInstance( 'toolbar' );
 		//$bar->appendButton( 'Link', 'back', 'COM_PHOCAPDF_CONTROL_PANEL', 'index.php?option=com_phocapdf' );
 		
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList( JText::_( 'COM_PHOCAPDF_WARNING_DELETE_ITEMS' ), 'phocapdffont.delete', 'COM_PHOCAPDF_DELETE');
+			JToolbarHelper::deleteList( JText::_( 'COM_PHOCAPDF_WARNING_DELETE_ITEMS' ), 'phocapdffont.delete', 'COM_PHOCAPDF_DELETE');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help( 'screen.phocapdf', true );
+		JToolbarHelper::divider();
+		JToolbarHelper::help( 'screen.phocapdf', true );
 	}
 	
 	protected function getSortFields() {

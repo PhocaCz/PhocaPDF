@@ -21,7 +21,7 @@ class ContentViewArticle extends JViewLegacy
 	{
 		$app 		= JFactory::getApplication();
 		$user 		= JFactory::getUser();
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$state 		= $this->get('State');
 		$item 		= $this->get('Item');
@@ -79,7 +79,7 @@ class ContentViewArticle extends JViewLegacy
 			}
 			else
 			{
-				echo JText::_('JERROR_ALERTNOAUTHOR');
+				echo JText::_('COM_PHOCAPDF_NOT_AUTHORIZED_DO_ACTION');
 				return;
 			}
 		}
@@ -127,7 +127,7 @@ class ContentViewArticle extends JViewLegacy
 			$model->hit();
 		}
 		
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setHeader($this->getHeaderText($item, $params));
 
 		echo $item->text;		

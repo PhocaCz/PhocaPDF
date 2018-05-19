@@ -30,23 +30,23 @@ class PhocaPDFCpViewPhocaPDFCp extends JViewLegacy
 	}
 	
 	protected function addToolbar() {
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfcp.php';
+		require_once JPATH_COMPONENT.'/helpers/phocapdfcp.php';
 
 		$state	= $this->get('State');
 		$canDo	= PhocaPdfHelperControlPanel::getActions($this->t);
-		JToolBarHelper::title( JText::_( 'COM_PHOCAPDF_PDF_CONTROL_PANEL' ), 'home-2 cpanel' );
+		JToolbarHelper::title( JText::_( 'COM_PHOCAPDF_PDF_CONTROL_PANEL' ), 'home-2 cpanel' );
 		
 		// This button is unnecessary but it is displayed because Joomla! design bug
-		$bar = JToolBar::getInstance( 'toolbar' );
+		$bar = JToolbar::getInstance( 'toolbar' );
 		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-small"><i class="icon-home-2" title="'.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
 		$bar->appendButton('Custom', $dhtml);
 		
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_phocapdf');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_phocapdf');
+			JToolbarHelper::divider();
 		}
 		
-		JToolBarHelper::help( 'screen.phocapdf', true );
+		JToolbarHelper::help( 'screen.phocapdf', true );
 	}
 }
 ?>

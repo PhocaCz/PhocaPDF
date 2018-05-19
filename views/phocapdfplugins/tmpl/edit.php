@@ -1,4 +1,13 @@
 <?php
+/*
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @component Phoca Component
+ * @copyright Copyright (C) Jan Pavelka www.phoca.cz
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
+ */
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
@@ -21,7 +30,7 @@ jimport('joomla.filesystem.file');
 		<td valign="top">
 		<div class="phoca-plugins"><?php
 		if(isset($this->tmpl['plugin']->element)) {
-			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'phocapdfplugins'.DS.'tmpl'.DS.'default_'.$this->tmpl['plugin']->element.'.php')) {
+			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->tmpl['plugin']->element.'.php')) {
 
 				echo $this->loadTemplate($this->tmpl['plugin']->element);
 			} else {

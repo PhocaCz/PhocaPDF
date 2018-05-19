@@ -38,12 +38,12 @@ class PhocaPdfRenderAdminViews
 	
 	public function startFilter($txtFilter, $filter = 1){
 		$o = '<div id="j-sidebar-container" class="span2">'."\n"
-		. JHtmlSidebar::render()."\n"
-		. '<hr />'."\n";
+		. JHtmlSidebar::render()."\n";
+		//. '<hr />'."\n";
 		if ($filter == 0) {
-			$o .= '<div class="filter-select hidden-phone">'."\n";
+			$o .= '<div class="filter-select">'."\n";
 		} else {
-			$o .= '<div class="filter-select hidden-phone">'."\n"
+			$o .= '<div class="filter-select">'."\n"
 		. '<h4 class="page-header">'. JText::_($txtFilter).'</h4>'."\n";
 		}
 		return $o;
@@ -107,7 +107,7 @@ class PhocaPdfRenderAdminViews
 	}
 	
 	public function inputFilterSearchClear($txtFs, $txtFc) {
-		return '<div class="btn-group pull-left hidden-phone">'. "\n"
+		return '<div class="btn-group pull-left">'. "\n"
 		.'<button class="btn tip hasTooltip" type="submit" title="'.JText::_($txtFs).'"><i class="icon-search"></i></button>'. "\n"
 		.'<button class="btn tip hasTooltip" type="button" onclick="document.id(\'filter_search\').value=\'\';this.form.submit();"'
 		.' title="'.JText::_($txtFc).'"><i class="icon-remove"></i></button>'. "\n"
@@ -115,7 +115,7 @@ class PhocaPdfRenderAdminViews
 	}
 	
 	public function inputFilterSearchLimit($txtSl, $paginationLimitBox) {			
-		return '<div class="btn-group pull-right hidden-phone">'. "\n"
+		return '<div class="btn-group pull-right">'. "\n"
 		.'<label for="limit" class="element-invisible">'.JText::_($txtSl).'</label>'. "\n"
 		.$paginationLimitBox ."\n" . '</div>'. "\n";
 	}
@@ -124,7 +124,7 @@ class PhocaPdfRenderAdminViews
 		$ascDir = $descDir = '';
 		if ($listDirn == 'asc') {$ascDir = 'selected="selected"';}
 		if ($listDirn == 'desc') {$descDir = 'selected="selected"';}
-		return '<div class="btn-group pull-right hidden-phone">'. "\n"
+		return '<div class="btn-group pull-right">'. "\n"
 		.'<label for="directionTable" class="element-invisible">' .JText::_('JFIELD_ORDERING_DESC').'</label>'. "\n"
 		.'<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">'. "\n"
 		.'<option value="">' .JText::_('JFIELD_ORDERING_DESC').'</option>'. "\n"
@@ -164,7 +164,7 @@ class PhocaPdfRenderAdminViews
 	}
 	
 	public function thOrdering($txtHo, $listDirn, $listOrder ) {
-		return '<th class="nowrap center hidden-phone ph-ordering">'. "\n"
+		return '<th class="nowrap center ph-ordering">'. "\n"
 		. JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', $txtHo). "\n"
 		. '</th>';
 	}
@@ -177,7 +177,7 @@ class PhocaPdfRenderAdminViews
 	
 	public function tdOrder($canChange, $saveOrder, $orderkey){
 	
-		$o = '<td class="order nowrap center hidden-phone">'. "\n";
+		$o = '<td class="order nowrap center">'. "\n";
 		if ($canChange) {
 			$disableClassName = '';
 			$disabledLabel    = '';
@@ -196,7 +196,7 @@ class PhocaPdfRenderAdminViews
 	}
 	
 	public function tdRating($ratingAvg) {
-		$o = '<td class="small hidden-phone">';
+		$o = '<td class="small">';
 		$voteAvg 		= round(((float)$ratingAvg / 0.5)) * 0.5;
 		$voteAvgWidth	= 16 * $voteAvg;
 		$o .= '<ul class="star-rating-small">'
@@ -213,7 +213,7 @@ class PhocaPdfRenderAdminViews
 	
 	public function tdLanguage($lang, $langTitle, $langTitleE ) {
 	
-		$o = '<td class="small nowrap hidden-phone">';
+		$o = '<td class="small nowrap">';
 		if ($lang == '*') {
 			$o .= JText::_('JALL');
 		} else {

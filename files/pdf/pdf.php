@@ -40,7 +40,7 @@ class JDocumentPdf extends JDocument
 		$this->_mime = 'application/pdf';
 		$this->_caching = null;
 		//header('Content-type: application/pdf');
-		JResponse::setHeader('Content-type', 'application/pdf', true);//Because of cache
+		JApplicationWeb::setHeader('Content-type', 'application/pdf', true);//Because of cache
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		//$this->setMetaData('Content-Type', 'application/pdf', true);
 		//$this->setMetaData('robots', 'index, follow');
@@ -80,21 +80,23 @@ class JDocumentPdf extends JDocument
 	function render( $caching = false, $params = array()) {
 		
 		//header('Content-type: application/pdf');
-		//JResponse::allowCache(false);
-		JResponse::setHeader('Content-type', 'application/pdf', true);// Because of cache
-		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
+		//J Response::allowCache(false);
+		JApplicationWeb::setHeader('Content-type', 'application/pdf', true);// Because of cache
+		JApplicationWeb::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 		
 		//$this->_caching = $caching;
 		//Call static function because of using on different places by different extensions
 		if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
 			require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php');
 		} else {
-			return JError::raiseError('PDF ERROR', 'Document cannot be created - Loading of Phoca PDF library (Render) failed');
+			throw new Exception('Document cannot be created - Loading of Phoca PDF library (Render) failed', 404);
+			return false;
 		}
 
 		parent::render();
-		$data = PhocaPdfRender::renderPDF($this);
 		
+		$data = PhocaPdfRender::renderPDF($this);
+
 		return $data;
 	}
 	

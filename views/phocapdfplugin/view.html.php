@@ -31,12 +31,13 @@ class PhocaPDFCpViewPhocaPDFPlugin extends JViewLegacy
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
+		
+			throw new Exception(implode("\n", $errors), 500);	
 			return false;
 		}
 		
 		// Plugins
-		//$this->tmpl['id']	= JRequest::getVar( 'id', 0, '', 'int' );
+		//$this->tmpl['id']	= JFactory::getApplication()->input->get( 'id', 0, '', 'int' );
 		$this->tmpl['id']	= $this->state->get('phocapdfplugin.id');
 		
 		$i = 0;
@@ -72,25 +73,25 @@ class PhocaPDFCpViewPhocaPDFPlugin extends JViewLegacy
 	
 		$this->state		= $this->get('State');
 		
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfplugins.php';
+		require_once JPATH_COMPONENT.'/helpers/phocapdfplugins.php';
 		//$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo	= PhocaPDFPluginsHelper::getActions($this->t);
 		
-		JToolBarHelper::title(   JText::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
+		JToolbarHelper::title(   JText::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
 		
-		$bar = JToolBar::getInstance( 'toolbar' );
+		$bar = JToolbar::getInstance( 'toolbar' );
 		//$bar->appendButton( 'Link', 'back', 'COM_PHOCAPDF_CONTROL_PANEL', 'index.php?option=com_phocapdf' );
 
 		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-small"><i class="icon-home-2" title="'.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
 		$bar->appendButton('Custom', $dhtml);
 		
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('phocapdfplugin.apply', 'JTOOLBAR_APPLY');
-			//JToolBarHelper::save('phocapdfplugin.save', 'JTOOLBAR_SAVE');
+			JToolbarHelper::apply('phocapdfplugin.apply', 'JTOOLBAR_APPLY');
+			//JToolbarHelper::save('phocapdfplugin.save', 'JTOOLBAR_SAVE');
 		}
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 		
-		JToolBarHelper::help( 'screen.phocapdf', true );
+		JToolbarHelper::help( 'screen.phocapdf', true );
 		
 	}
 }

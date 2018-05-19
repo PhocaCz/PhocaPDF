@@ -36,18 +36,18 @@ class PhocaPDFCpViewPhocaPDFPlugins extends JViewLegacy
 	
 		$this->state		= $this->get('State');
 		
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfplugins.php';
+		require_once JPATH_COMPONENT.'/helpers/phocapdfplugins.php';
 		//$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo	= PhocaPDFPluginsHelper::getActions($this->t);
 		
-		JToolBarHelper::title(   JText::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
+		JToolbarHelper::title(   JText::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
 		
-		$bar = JToolBar::getInstance( 'toolbar' );
+		$bar = JToolbar::getInstance( 'toolbar' );
 		$bar->appendButton( 'Link', 'home-2 cpanel', 'COM_PHOCAPDF_CONTROL_PANEL', 'index.php?option=com_phocapdf' );
 
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 		
-		JToolBarHelper::help( 'screen.phocapdf', true );
+		JToolbarHelper::help( 'screen.phocapdf', true );
 		
 	}
 }

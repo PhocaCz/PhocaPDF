@@ -11,8 +11,8 @@
 jimport( 'joomla.html.parameter' );
 defined('_JEXEC') or die();
 // Phoca PDF TCPDF
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocapdf'.DS.'helpers'.DS.'phocapdf.php');
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocapdf'.DS.'assets'.DS.'tcpdf'.DS.'tcpdf.php');
+require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdf.php');
+require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/assets/tcpdf/tcpdf.php');
 
 class PhocaPDFContentTCPDF extends TCPDF
 {
@@ -40,8 +40,9 @@ class PhocaPDFContentTCPDF extends TCPDF
 		$params						= array();
 		$params['header_display_line']	= $pluginP->get('header_display_line', 1);
 		$params['header_display']		= $pluginP->get('header_display', 1);
-		$params['header_font_color']	= $this->convertHTMLColorToDec($pluginP->get('header_font_color', '#000000'));
-		$params['header_line_color']	= $this->convertHTMLColorToDec($pluginP->get('header_line_color', '#000000'));
+		$spotColors = $this->getAllSpotColors();
+		$params['header_font_color']	= TCPDF_COLORS::convertHTMLColorToDec($pluginP->get('header_font_color', '#000000'), $spotColors);
+		$params['header_line_color']	= TCPDF_COLORS::convertHTMLColorToDec($pluginP->get('header_line_color', '#000000'), $spotColors);
 		$params['header_bg_color']		= $pluginP->get('header_bg_color', '');
 		$params['header_data']			= $pluginP->get('header_data', '');
 		$params['header_data_align']	= $pluginP->get('header_data_align', 'L');
@@ -85,7 +86,8 @@ class PhocaPDFContentTCPDF extends TCPDF
 			
 			$fill = 0;
 			if ($params['header_bg_color'] != '') {
-				$fillColor = $this->convertHTMLColorToDec($params['header_bg_color']);
+				$spotColors = $this->getAllSpotColors();
+				$fillColor = TCPDF_COLORS::convertHTMLColorToDec($params['header_bg_color'], $spotColors);
 				$this->SetFillColorArray(array($fillColor['R'],$fillColor['G'],$fillColor['B']));
 				$fill = 1;
 				
@@ -118,8 +120,9 @@ class PhocaPDFContentTCPDF extends TCPDF
 			// Params
 			$params								= array();
 			$params['footer_display_line']		= $pluginP->get('footer_display_line', 1);
-			$params['footer_font_color']		= $this->convertHTMLColorToDec($pluginP->get('footer_font_color', '#000000'));
-			$params['footer_line_color']		= $this->convertHTMLColorToDec($pluginP->get('footer_line_color', '#000000'));
+			$spotColors = $this->getAllSpotColors();
+			$params['footer_font_color']		= TCPDF_COLORS::convertHTMLColorToDec($pluginP->get('footer_font_color', '#000000'), $spotColors);
+			$params['footer_line_color']		= TCPDF_COLORS::convertHTMLColorToDec($pluginP->get('footer_line_color', '#000000'), $spotColors);
 			$params['footer_bg_color']			= $pluginP->get('footer_bg_color', '');
 			$params['footer_display']			= $pluginP->get('footer_display', 1);
 			$params['footer_data']				= $pluginP->get('footer_data', '');
@@ -142,7 +145,7 @@ class PhocaPDFContentTCPDF extends TCPDF
 		
 			$isHTML = false;
 			if ($params['footer_data'] != '') {
-				//$params['footer_data'] = str_replace(utf8_encode("<p> </p>"), '<p></p>', $params['footer_data']);
+				//$params['footer_data'] = str_replace(utf8_encode("<p>ï¿½</p>"), '<p></p>', $params['footer_data']);
 				$params['footer_data'] = str_replace(array(utf8_encode(chr(11)), utf8_encode(chr(160))), ' ', $params['footer_data']);
 				$isHTML = true;
 			}
@@ -201,7 +204,8 @@ class PhocaPDFContentTCPDF extends TCPDF
 			
 				$fill = 0;
 				if ($params['footer_bg_color'] != '') {
-					$fillColor = $this->convertHTMLColorToDec($params['footer_bg_color']);
+					$spotColors = $this->getAllSpotColors();
+					$fillColor = TCPDF_COLORS::convertHTMLColorToDec($params['footer_bg_color'], $spotColors);
 					$this->SetFillColorArray(array($fillColor['R'],$fillColor['G'],$fillColor['B']));
 					$fill = 1;
 					

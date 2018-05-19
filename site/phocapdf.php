@@ -9,18 +9,19 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
-require_once( JPATH_COMPONENT.DS.'controller.php' );
-if($controller = JRequest::getWord('controller')) {
-    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+
+// Require specific controller if requested
+if($controller = JFactory::getApplication()->input->get('controller')) {
+    $path = JPATH_COMPONENT.'/controller/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
     } else {
         $controller = '';
     }
 }
-// Create the controller
+
 $classname    = 'PhocaPDFController'.ucfirst($controller);
 $controller   = new $classname( );
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute( JFactory::getApplication()->input->get('task') );
 $controller->redirect();
 ?>

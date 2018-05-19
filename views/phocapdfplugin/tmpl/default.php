@@ -1,4 +1,14 @@
 <?php
+/*
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @component Phoca Component
+ * @copyright Copyright (C) Jan Pavelka www.phoca.cz
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
+ */
+ 
 defined('_JEXEC') or die('Restricted access');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -6,8 +16,34 @@ JHtml::_('formbehavior.chosen', 'select');
 
 
 //$route = 'index.php?option=com_phocapdf&view=phocapdfplugins';
-$route = 'index.php?option=com_phocapdf&amp;layout=edit&amp;extension_id='.(int)$this->item->extension_id
+$route = 'index.php?option=com_phocapdf&amp;layout=edit&amp;extension_id='.(int)$this->item->extension_id;
+
+
 ?>
+<script type="text/javascript">
+Joomla.submitbutton = function(task){
+	if (task == '<?php echo $this->t['task'] ?>.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+		<?php //echo $this->form->getField('header_data')->save(); ?>
+		<?php //echo $this->form->getField('footer_data')->save(); ?>
+		<?php
+		foreach($this->form->getFieldset('phocaheader') as $k => $v) {
+			if (strtolower($v->type) == 'phocapdfeditor' || strtolower($v->type) == 'editor') {
+				echo $v->save();
+			}
+		}
+		foreach($this->form->getFieldset('phocafooter') as $k => $v) {
+			if (strtolower($v->type) == 'phocapdfeditor' || strtolower($v->type) == 'editor') {
+				echo $v->save();
+			}
+		}
+		?>
+		Joomla.submitform(task, document.getElementById('adminForm'));
+	}
+	else {
+		alert('<?php echo JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true);?>');
+	}
+}
+</script>
 <div id="phocapdf">
 <form action="<?php echo JRoute::_($route); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
 
@@ -30,7 +66,8 @@ $route = 'index.php?option=com_phocapdf&amp;layout=edit&amp;extension_id='.(int)
 		
 
 		if(isset($this->item->element)) {
-			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'phocapdfplugins'.DS.'tmpl'.DS.'default_'.$this->item->element.'.php')) {
+			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->item->element.'.php')) {
+				
 				echo $this->loadTemplate($this->item->element);
 			} else {
 				echo JText::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');

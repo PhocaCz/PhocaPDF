@@ -8,7 +8,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 jimport( 'joomla.filesystem.folder' );
 
 class com_phocapdfInstallerScript
@@ -65,7 +64,7 @@ class com_phocapdfInstallerScript
 	function update($parent) {
 		
 		
-		//$db			= &JFactory::getDBO();
+		//$db			= JFactory::getDBO();
 		//$dbPref 	= $db->getPrefix();
 		$msgSQL 	= '';
 		$errFile	= array();
@@ -126,11 +125,14 @@ class com_phocapdfInstallerScript
 		jimport( 'joomla.client.helper' );
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
-		$ftp 	=& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp 	= JClientHelper::setCredentialsFromRequest('ftp');
 		
-		$src 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/pdf/pdf.php';
-		$dest 		= JPATH_ROOT. '/libraries/joomla/document/pdf/pdf.php';
-		$folderPath = JPATH_ROOT. '/libraries/joomla/document/pdf';
+		$src = array();
+		$dest = array();
+		// Document
+		$src[0] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/pdf/pdf.php';
+		$dest[0] 		= JPATH_ROOT. '/libraries/joomla/document/pdf/pdf.php';
+		$folderPath 	= JPATH_ROOT. '/libraries/joomla/document/pdf';
 		
 		if(!JFolder::create($folderPath, 0755)) {
 			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
@@ -139,30 +141,94 @@ class com_phocapdfInstallerScript
 		}
 		
 		$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-		if(!JFile::write($folderPath.DS."index.html", $data)) {
-			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).DS."index.html";
+		if(!JFile::write($folderPath."/index.html", $data)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath)."/index.html";
 		} else {
-			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).DS."index.html";
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath)."/index.html";
+		}
+		
+		// Document since Joomla! 3.8
+		$src[4] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/Document/PdfDocument.php';
+		$dest[4] 		= JPATH_ROOT. '/libraries/src/Document/PdfDocument.php';
+		$folderPath4 	= JPATH_ROOT. '/libraries/src/Document';
+		
+		if(!JFolder::create($folderPath4, 0755)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
+		} else {
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
+		}
+		
+		$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
+		if(!JFile::write($folderPath."/index.html", $data)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath)."/index.html";
+		} else {
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath)."/index.html";
+		}
+		
+		// Renderer
+		$src[1] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/renderer/pdf/component.php';
+		$src[2] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/renderer/pdf/module.php';
+		$src[3] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/renderer/pdf/modules.php';
+		
+		$src[11] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/Document/Renderer/Pdf/ComponentRenderer.php';
+		$src[12] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/Document/Renderer/Pdf/ModuleRenderer.php';
+		$src[13] 		= JPATH_ROOT. '/administrator/components/com_phocapdf/files/Document/Renderer/Pdf/ModulesRenderer.php';
+		
+		$dest[1] 		= JPATH_ROOT. '/libraries/joomla/document/renderer/pdf/component.php';
+		$dest[2] 		= JPATH_ROOT. '/libraries/joomla/document/renderer/pdf/module.php';
+		$dest[3] 		= JPATH_ROOT. '/libraries/joomla/document/renderer/pdf/modules.php';
+		
+		$dest[11] 		= JPATH_ROOT. '/libraries/src/Document/Renderer/Pdf/ComponentRenderer.php';
+		$dest[12] 		= JPATH_ROOT. '/libraries/src/Document/Renderer/Pdf/ModuleRenderer.php';
+		$dest[13] 		= JPATH_ROOT. '/libraries/src/Document/Renderer/Pdf/ModulesRenderer.php';
+		
+		$folderPath1	= JPATH_ROOT. '/libraries/joomla/document/renderer/pdf';
+		$folderPath2	= JPATH_ROOT. '/libraries/src/Document/Renderer/Pdf';
+		
+		if(!JFolder::create($folderPath1, 0755)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath1);
+		} else {
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath1);
+		}
+		
+		if(!JFolder::create($folderPath2, 0755)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath2);
+		} else {
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath2);
+		}
+		
+		$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
+		if(!JFile::write($folderPath1."/index.html", $data)) {
+			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath1)."/index.html";
+		} else {
+			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath1)."/index.html";
 		}
 		
 		
-		if (file_exists($src)) {
-			if (!JFile::copy($src, $dest)) {
-				$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
-			} else {
-				$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+		// Copy all files
+		if (!empty($src) && !empty($dest)) {
+			foreach ($src as $k => $v) {
+		
+	
+				if (file_exists($src[$k])) {
+					if (!JFile::copy($src[$k], $dest[$k])) {
+						$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[$k])
+						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest[$k]);
+					} else {
+						$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[$k])
+						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest[$k]);
+					}
+				} else {
+					$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[$k]);
+				}	
+				
+				if (!file_exists($dest[$k])) {
+					$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest[$k]);
+				}
 			}
-		} else {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src);
-		}	
-		
-		if (!file_exists($dest)) {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
-		}
+		} 
 		
 		return true;// will be not worked, we are working with errorMsg
 	}

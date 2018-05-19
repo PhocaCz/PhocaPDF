@@ -45,12 +45,14 @@ class JFormFieldPhocaPDFFontType extends JFormField
 			$i = 0;
 			foreach ($xmlFiles as $key => $value) {
 				
-				$xml = $this->_isManifest($value);	
+				$xml = $this->_isManifest($value);
+			
 				if(!is_null($xml->children())) {
 					
 					foreach ($xml->children() as $key => $value) {
 						
-						if ($value->name() == 'tag') {
+						
+						if (is_a($value, 'SimpleXMLElement') && $value->getName() == 'tag') {
 							
 							$font[$i]		= new StdClass();
 							$font[$i]->tag 	= (string)$value;
@@ -66,23 +68,26 @@ class JFormFieldPhocaPDFFontType extends JFormField
 	}
 	
 	
-	
 	function _isManifest($file) {
-		$xml	= JFactory::getXML($file, true);
+		$xml	= simplexml_load_file($file);
 		if (!$xml) {
 			unset ($xml);
 			return null;
 		}
-		if (!is_object($xml) || ($xml->name() != 'install' )) {
+		
+		if (!is_object($xml) || ($xml->getName() != 'install' )) {
+			
 			unset ($xml);
 			return null;
 		}
+		
+		
 		return $xml;
 	}
 	
 	protected function _getPath() {
 		if (empty($this->_path)) {
-			$this->_path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocapdf'.DS.'fonts';
+			$this->_path = JPATH_ADMINISTRATOR.'/components/com_phocapdf/fonts';
 		}
 		return $this->_path;
 	}

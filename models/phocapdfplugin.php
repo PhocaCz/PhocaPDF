@@ -98,7 +98,8 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 
 			// Check for a table object error.
 			if ($return === false && $table->getError()) {
-				$this->setError($table->getError());
+				
+				throw new Exception($table->getError(), 500);
 				return $false;
 			}
 
@@ -113,11 +114,12 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 	
 			// Get the plugin XML.
+			
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
 			$path	= JPath::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
 			if (file_exists($path)) {
-				$this->_cache[$pk]->xml = JFactory::getXML($path);
+				$this->_cache[$pk]->xml = simplexml_load_file($path);
 			} else {
 				$this->_cache[$pk]->xml = null;
 			}
@@ -140,7 +142,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('extension_id');
+		$pk = (int) $app->input->get('extension_id');
 		$this->setState('phocapdfplugin.id', $pk);
 	}
 
@@ -165,7 +167,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 			// Try 1.5 format: /plugins/folder/element/element.xml
 			$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'.xml');
 			if (!file_exists($formFile)) {
-				throw new Exception(JText::sprintf('JError_File_not_found', $element.'.xml'));
+				throw new Exception(JText::sprintf('COM_PHOCAPDF_ERROR_FILE_NOT_FOUND', $element.'.xml'));
 				return false;
 			}
 		}
@@ -179,13 +181,13 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		if (file_exists($formFile)) {
 			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config')) {
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new Exception(JText::_('COM_PHOCAPDF_LOADFILE_FAILED'));
 			}
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile)) {
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new Exception(JText::_('COM_PHOCAPDF_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.

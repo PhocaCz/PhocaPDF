@@ -2,12 +2,12 @@
 <extension method="upgrade" type="component" version="3">
 	<name>com_phocapdf</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>28/07/2014</creationDate>
+	<creationDate>19/05/2018</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.0.2</version>
+	<version>3.0.5</version>
 	<description>Phoca PDF</description>
 	<scriptfile>install/script.php</scriptfile>
 
@@ -67,4 +67,8 @@
 		</languages>
 
 	</administration>
+	<updateservers>
+		<server type="extension" name="com_phocapdf">https://raw.githubusercontent.com/PhocaCz/PhocaPDF/master/manifest.xml</server>
+	</updateservers>
+
 </extension>

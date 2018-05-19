@@ -23,15 +23,15 @@ class PhocaPDFCpViewPhocaPDFInfo extends JViewLegacy
 	}
 	
 	protected function addToolbar() {
-		JToolBarHelper::title( JText::_( 'COM_PHOCAPDF_PDF_INFO' ), 'info.png' );
-		//JToolBarHelper::cancel( 'cancel', 'COM_PHOCAPDF_CLOSE' );
+		JToolbarHelper::title( JText::_( 'COM_PHOCAPDF_PDF_INFO' ), 'info.png' );
+		//JToolbarHelper::cancel( 'cancel', 'COM_PHOCAPDF_CLOSE' );
 		
-		$bar = JToolBar::getInstance( 'toolbar' );
+		$bar = JToolbar::getInstance( 'toolbar' );
 		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-small"><i class="icon-home-2" title="'.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.JText::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
 		$bar->appendButton('Custom', $dhtml);
 		
-		JToolBarHelper::divider();
-		JToolBarHelper::help( 'screen.phocapdf', true );
+		JToolbarHelper::divider();
+		JToolbarHelper::help( 'screen.phocapdf', true );
 	}
 }
 ?>

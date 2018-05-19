@@ -7,16 +7,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-require_once( JPATH_COMPONENT.DS.'controller.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfrenderadmin.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfutils.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'phocapdf.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'phocapdfparams.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'renderadminview.php' );
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'renderadminviews.php' );
+require_once( JPATH_COMPONENT.'/controller.php' );
+require_once( JPATH_COMPONENT.'/helpers/phocapdfrenderadmin.php' );
+require_once( JPATH_COMPONENT.'/helpers/phocapdfutils.php' );
+require_once( JPATH_COMPONENT.'/helpers/phocapdf.php' );
+require_once( JPATH_COMPONENT.'/helpers/phocapdfparams.php' );
+require_once( JPATH_COMPONENT.'/helpers/renderadminview.php' );
+require_once( JPATH_COMPONENT.'/helpers/renderadminviews.php' );
 jimport('joomla.application.component.controller');
 $controller	= JControllerLegacy::getInstance('PhocaPDFCp');
 $controller->execute(JFactory::getApplication()->input->get('task'));

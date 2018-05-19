@@ -8,8 +8,8 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
-include_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocapdf'.DS.'helpers'.DS.'phocapdfbrowser.php');
+
+include_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfbrowser.php');
 defined('_JEXEC') or die();
 class PhocaPDFHelper
 {
@@ -24,7 +24,7 @@ class PhocaPDFHelper
 		
 		// Plugin Parameters
 		jimport( 'joomla.html.parameter' );
-	 	//$pluginP 	= new JParameter( $plugin->params );
+	 	
 		$plugin 	= JPluginHelper::getPlugin('phocapdf', 'content');
 		$pluginP 	= new JRegistry();
 		$pluginP->loadString($plugin->params);
@@ -80,12 +80,16 @@ class PhocaPDFHelper
 			}
 		}
 		
+		if (!class_exists('ContentHelperRoute')) {
+			require_once (JPATH_SITE . '/components/com_content/helpers/route.php');
+		}
+		
 		$url  = ContentHelperRoute::getArticleRoute($item->slug, $item->catid);
 		$url .= '&tmpl=component&format=pdf';//&page='.@ $request->limitstart;
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHTML::_('image','components/com_phocapdf/assets/images/pdf_button.png', JText::_('PLG_PHOCAPDF_CONTENT_PDF'));
+			$text = JHTML::_('image','media/com_phocapdf/images/pdf_button.png', JText::_('PLG_PHOCAPDF_CONTENT_PDF'));
 		} else {
 			if ($params->get('show_print_icon')) {
 				//$sep = JText::_('JGLOBAL_ICON_SEP');
@@ -95,7 +99,7 @@ class PhocaPDFHelper
 			} else {
 				$sep = '';
 			}
-			$text = '&#160;'. JText::_('PLG_PHOCAPDF_CONTENT_PDF') .'&#160;'. $sep;
+			//$text = '&#160;'. JText::_('PLG_PHOCAPDF_CONTENT_PDF') .'&#160;'. $sep;
 			
 			$text =  JText::_('PLG_PHOCAPDF_CONTENT_PDF') . $sep;
 		}
@@ -105,8 +109,12 @@ class PhocaPDFHelper
 		$attribs['rel']		= 'nofollow';
 
 		
+
+		//$output = '<li class="print-icon">'
+		// . JHTML::_('link',JRoute::_($url), '<span class="icon-file"></span>&#160;' .$text. '&#160;', $attribs)
+		//.'</li>';
 		$output = '<li class="print-icon">'
-		 . JHTML::_('link',JRoute::_($url), '<span class="icon-file"></span>&#160;' .$text. '&#160;', $attribs)
+		 . JHTML::_('link',JRoute::_($url), '<span class="glyphicon glyphicon-file icon-file"></span>' .$text. '', $attribs)
 		.'</li>';
 
 		return $output;
@@ -143,14 +151,14 @@ class PhocaPDFHelper
 		}
 	}
 
-
-
+	
+	
 	public static function getPhocaVersion($component) {
-		$folder = JPATH_ADMINISTRATOR .DS. 'components'.DS.$component;
+		$folder = JPATH_ADMINISTRATOR.'/components'.'/'.$component;
 		if (JFolder::exists($folder)) {
 			$xmlFilesInDir = JFolder::files($folder, '.xml$');
 		} else {
-			$folder = JPATH_SITE .DS. 'components'.DS.$component;
+			$folder = JPATH_SITE .'/'. 'components'.'/'.$component;
 			if (JFolder::exists($folder)) {
 				$xmlFilesInDir = JFolder::files($folder, '.xml$');
 			} else {
@@ -158,12 +166,12 @@ class PhocaPDFHelper
 			}
 		}
 
-		$xml_items = '';
+		$xml_items = array();
 		if (count($xmlFilesInDir))
 		{
 			foreach ($xmlFilesInDir as $xmlfile)
 			{
-				if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
+				if ($data = \JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
 					foreach($data as $key => $value) {
 						$xml_items[$key] = $value;
 					}
@@ -199,7 +207,7 @@ class PhocaPDFControlPanel
 	
 	public static function quickIconButton( $component, $link, $image, $text ) {
 		
-		$lang	= &JFactory::getLanguage();
+		$lang	= JFactory::getLanguage();
 		$button = '';
 		if ($lang->isRTL()) {
 			$button .= '<div class="icon-wrapper">';

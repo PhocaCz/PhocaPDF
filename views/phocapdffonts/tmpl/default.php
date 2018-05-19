@@ -27,7 +27,7 @@ $sortFields = $this->getSortFields();
 
 echo $r->jsJorderTable($listOrder);
 
-echo '<div class="clearfix"></div>';
+//echo '<div class="clearfix"></div>';
 
 echo $r->startForm($this->t['o'], $this->t['tasks'], 'adminForm');
 echo $r->startFilter($this->t['l'].'_FILTER', 0);
@@ -49,7 +49,8 @@ echo $r->startTable('categoryList');
 
 echo $r->startTblHeader();
 
-echo $r->thOrdering('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
+//echo $r->thOrdering('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
+//echo '<th></th>';
 echo $r->thCheck('JGLOBAL_CHECK_ALL');
 echo '<th class="ph-titlefont">'.JText::_($this->t['l'].'_FONT_NAME').'</th>'."\n";
 echo '<th class="ph-delete">'.JText::_($this->t['l'].'_DELETE').'</th>'."\n";
@@ -88,10 +89,10 @@ $iD = $i % 2;
 echo "\n\n";
 echo '<tr class="row'.$iD.'" sortable-group-id="0" item-id="'.$item->id.'" parents="0" level="0">'. "\n";
 
-echo $r->tdOrder(0,0,0);
-echo $r->td(JHtml::_('grid.id', $i, $item->id), "small hidden-phone");						
+//echo $r->tdOrder(0,0,0);
+echo $r->td(JHtml::_('grid.id', $i, $item->id), "small");						
 
-echo $r->td($this->escape($item->name), "small hidden-phone");
+echo $r->td($this->escape($item->name), "small");
 
 $del = '';
 if ($canDelete) {	
@@ -99,7 +100,7 @@ $del = '<a href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText:
 	. JHTML::_('image', 'media/com_phocapdf/images/administrator/icon-16-trash.png', JText::_('COM_PHOCAPDF_DELETE') )
 	.'</a>';
 }
-echo $r->td($del, "small hidden-phone center");
+echo $r->td($del, "small center");
 
 
 echo '</tr>'. "\n";
@@ -109,7 +110,7 @@ echo '</tr>'. "\n";
 }
 echo '</tbody>'. "\n";
 
-echo $r->tblFoot($this->pagination->getListFooter(), 8);
+echo $r->tblFoot($this->pagination->getListFooter(), 3);
 echo $r->endTable();
 
 
@@ -152,7 +153,7 @@ echo '</div></div>';
 
 echo '<div style="border-top:1px solid #eee"></div><p>&nbsp;</p>';
 
-echo '<div class="btn-group" style="float:left;"><a class="btn btn-large btn-info" href="http://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
+echo '<div class="btn-group" style="float:left;"><a class="btn btn-large btn-info" href="https://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
 echo '<div class="clearfix"></div>';
 
 echo '</div>';

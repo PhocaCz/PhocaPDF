@@ -44,6 +44,9 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		
 	}
 	
+	
+	
+	
 	public function getItems($removeInfo = 0)
 	{
 		
@@ -95,18 +98,19 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 						$items[$j]->id			=	$i + 1;
 						$items[$j]->checked_out	=	false;
 						
-						if ($value->name() == 'name') {
+						
+						if (is_a($value, 'SimpleXMLElement') && $value->getName() == 'name') {
 							//$items[$j]->name		= $value->data();
 							$items[$j]->name		= (string)$xml->children();
 						}
-						if ($value->name() == 'tag') {
+						if (is_a($value, 'SimpleXMLElement') && $value->getName() == 'tag') {
 							//$items[$j]->tag			=	$value->data();
 							$items[$j]->tag		= (string)$xml->children()->tag;
 						}
 						
 						// Get list while deleting function
 						if ($removeInfo == 1) {
-							if ($value->name() == 'files') {
+							if (is_a($value, 'SimpleXMLElement') && $value->getName() == 'files') {
 								if(!is_null($value->children())) {
 									
 									foreach ($value->children() as $key2 => $value2) {
@@ -142,30 +146,35 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 	
 	function getPathDest() {
 		if (empty($this->path_dest)) {
-			$this->path_dest = JPATH_COMPONENT_ADMINISTRATOR.DS.'fonts';
+			$this->path_dest = JPATH_COMPONENT_ADMINISTRATOR.'/fonts';
 		}
 		return $this->path_dest;
 	}
 	
 	function _isManifest($file) {
-		$xml	= JFactory::getXML($file, true);
+		$xml	= simplexml_load_file($file);
 		if (!$xml) {
 			unset ($xml);
 			return null;
 		}
-		if (!is_object($xml) || ($xml->name() != 'install' )) {
+		
+		if (!is_object($xml) || ($xml->getName() != 'install' )) {
+			
 			unset ($xml);
 			return null;
 		}
+		
+		
 		return $xml;
 	}
 	
 	function install() {
 		
+		$app = JFactory::getApplication();
 		$package = $this->getPackageFromUpload();
 	
 		if (!$package) {
-			JError::raiseWarning(1, JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_INSTALL_PACKAGE'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');	
 			$this->deleteTempFiles();
 			return false;
 		}
@@ -173,14 +182,14 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		if ($package['dir'] && JFolder::exists($package['dir'])) {
 			$this->setPath('source', $package['dir']);
 		} else {
-			JError::raiseWarning(1, JText::_('COM_PHOCAPDF_INSTALL_PATH_NOT_EXIST'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_INSTALL_PATH_NOT_EXIST'), 'error');	
 			$this->deleteTempFiles();
 			return false;
 		}
 
 		// We need to find the installation manifest file
 		if (!$this->_findManifest()) {
-			JError::raiseWarning(1, JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_REQUIRED_INFORMATION_INSTALL_PACKAGE'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_REQUIRED_INFORMATION_INSTALL_PACKAGE'), 'error');	
 			$this->deleteTempFiles();
 			return false;
 		}
@@ -188,19 +197,24 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		// Files - copy files in manifest		
 		foreach ($this->_manifest->children() as $child)
 		{
-			if (is_a($child, 'JXMLElement') && $child->name() == 'files') {
+			
+			
+			if (is_a($child, 'SimpleXMLElement') && $child->getName() == 'files') {
+				
 				if ($this->parseFiles($child) === false) {
-					JError::raiseWarning(1, JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_REQUIRED_INFORMATION_INSTALL_PACKAGE'));
+					$app->enqueueMessage(JText::_('COM_PHOCAPDF_UNABLE_TO_FIND_REQUIRED_INFORMATION_INSTALL_PACKAGE'), 'error');
 					$this->deleteTempFiles();
 					return false;
 				}
+			
 			}
+				
 		}
 		
 		// File - copy the xml file
 		$copyFile 		= array();
 		$path['src']	= $this->getPath( 'manifest' ); // XML file will be copied too
-		$path['dest']	= $this->getPathDest() . DS. basename($this->getPath('manifest')); 
+		$path['dest']	= $this->getPathDest() .'/'. basename($this->getPath('manifest')); 
 		$copyFile[] 	= $path;
 		$this->copyFiles($copyFile);
 		$this->deleteTempFiles();
@@ -209,38 +223,41 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 	}
 	
 	protected function getPackageFromUpload() {
+		
+		$app = JFactory::getApplication();
 		// Get the uploaded file information
-		$userfile = JRequest::getVar('Filedata', null, 'files', 'array' );
+		
+		$userfile = $app->input->files->get( 'Filedata', null, 'raw');
 		
 		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
-			JError::raiseWarning('COM_PHOCAPDF_ERROR', JText::_('COM_PHOCAPDF_WARNINSTALLFILE'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_WARNINSTALLFILE'), 'error');
 			return false;
 		}
 		// Make sure that zlib is loaded so that the package can be unpacked
 		if (!extension_loaded('zlib')) {
-			JError::raiseWarning('COM_PHOCAPDF_ERROR', JText::_('COM_PHOCAPDF_WARNINSTALLZLIB'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_WARNINSTALLZLIB'), 'error');
 			return false;
 		}
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile) ) {
-			JError::raiseWarning('COM_PHOCAPDF_ERROR', JText::_('COM_PHOCAPDF_NO_FILE_SELECTED'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_NO_FILE_SELECTED'), 'error');
 			return false;
 		}
 		// Check if there was a problem uploading the file.
 		if ( $userfile['error'] || $userfile['size'] < 1 ) {
-			JError::raiseWarning('COM_PHOCAPDF_ERROR', JText::_('COM_PHOCAPDF_WARNINSTALLUPLOADERROR'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_WARNINSTALLUPLOADERROR'), 'error');
 			return false;
 		}
 
 		// Build the appropriate paths
 		$config 	= JFactory::getConfig();
-		$tmp_dest 	= $config->get('tmp_path').DS.$userfile['name'];
+		$tmp_dest 	= $config->get('tmp_path').'/'.$userfile['name'];
 		$tmp_src	= $userfile['tmp_name'];
 
 		// Move uploaded file
 		jimport('joomla.filesystem.file');
-		$uploaded = JFile::upload($tmp_src, $tmp_dest);
+		$uploaded = JFile::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file
 		$package = self::unpack($tmp_dest);
@@ -271,6 +288,9 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 	}
 	
 	protected function copyFiles($files) {
+		
+		$app = JFactory::getApplication();
+		
 		if (is_array($files) && count($files) > 0) {
 			foreach ($files as $file) {
 				// Get the source and destination paths
@@ -278,17 +298,17 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 				$filedest	= JPath::clean($file['dest']);
 
 				if (!file_exists($filesource)) {
-					JError::raiseWarning(1, JText::sprintf('COM_PHOCAPDF_ERROR_FILE_NOT_EXIST_S', $filesource));
+					$app->enqueueMessage(JText::sprintf('COM_PHOCAPDF_ERROR_FILE_NOT_EXIST_S', $filesource), 'error');
 					return false;
 				} else {
 					if (!(JFile::copy($filesource, $filedest))) {
-						JError::raiseWarning(1, JText::sprintf('COM_PHOCAPDF_ERROR_FAILED_TO_COPY_FILE_TO', $filesource, $filedest));
+						$app->enqueueMessage(JText::sprintf('COM_PHOCAPDF_ERROR_FAILED_TO_COPY_FILE_TO', $filesource, $filedest), 'error');
 						return false;
 					}					
 				}
 			}
 		} else {
-			JError::raiseWarning(1, JText::sprintf('COM_PHOCAPDF_ERROR_FONT_FILE_NOT_FOUND'));
+			$app->enqueueMessage(JText::sprintf('COM_PHOCAPDF_ERROR_FONT_FILE_NOT_FOUND'), 'error');
 			return false;
 		}
 		
@@ -316,8 +336,8 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 						if (isset($value2->files)) {
 							foreach($value2->files as $key3 => $value3) {
 								if ($value3 != 'index.html') {
-									if (JFile::exists($this->getPathDest() . DS . $value3)) {
-										if(JFile::delete($this->getPathDest() . DS . $value3)) {
+									if (JFile::exists($this->getPathDest() . '/' . $value3)) {
+										if(JFile::delete($this->getPathDest() . '/' . $value3)) {
 											
 										} else {
 											$errorMsg .= $value3 . ': '.JText::_('COM_PHOCAPDF_FILE_COULD_NOT_BE_DELETED') . '<br />';
@@ -361,6 +381,9 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 	}
 	
 	function _findManifest() {
+		
+		$app = JFactory::getApplication();
+		
 		// Get an array of all the xml files from the installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
 		
@@ -375,7 +398,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 					$attr = $manifest->attributes();
 					
 					if ((string)$attr['type'] != 'phocapdffonts') {
-						JError::raiseWarning(1, JText::_('COM_PHOCAPDF_ERROR_NO_FONT_FILE'));
+						$app->enqueueMessage(JText::_('COM_PHOCAPDF_ERROR_NO_FONT_FILE'), 'error');
 						return false;
 					}
 
@@ -391,25 +414,28 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 			}
 
 			// None of the xml files found were valid install files
-			JError::raiseWarning(1, JText::_('COM_PHOCAPDF_ERRORNOTFINDJOOMLAXMLSETUPFILE'));
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_ERRORNOTFINDJOOMLAXMLSETUPFILE'), 'error');
 			return false;
 		} else {
 			// No xml files were found in the install folder
-			JError::raiseWarning(1, JText::_('COM_PHOCAPDF_ERRORXMLSETUP'));
+			
+			$app->enqueueMessage(JText::_('COM_PHOCAPDF_ERRORNOTFINDJOOMLAXMLSETUPFILE'), 'error');
 			return false;
 		}
 	}
 	
 	
 	function parseFiles($element, $cid=0) {
+		
 		// Initialize variables
 		$copyfiles = array ();
 
-		if (!is_a($element, 'JXMLElement') || !count($element->children())) {
+		if (!is_a($element, 'SimpleXMLElement') || !count($element->children())) {
 			return 0;// Either the tag does not exist or has no children therefore we return zero files processed.
 		}
 		
 		$files = $element->children(); // Get the array of file nodes to process
+		
 		if (count($files) == 0) {
 			return 0; // No files to process
 		}
@@ -420,8 +446,8 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		
 		/*
 		foreach ($files as $file) {
-			$path['src']	= $source.DS.$file->data();
-			$path['dest']	= $destination.DS.$file->data();
+			$path['src']	= $source.'/'.$file->data();
+			$path['dest']	= $destination.'/'.$file->data();
 
 			// Add the file to the copyfiles array
 			$copyfiles[] = $path;
@@ -429,11 +455,12 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		
 		if (!empty($files->filename)) {
 			foreach($files->filename as $fik => $fiv) {
-				$path['src']	= $source.DS.$fiv;
-				$path['dest']	= $destination.DS.$fiv;
+				$path['src']	= $source.'/'.$fiv;
+				$path['dest']	= $destination.'/'.$fiv;
 				$copyfiles[] = $path;
 			}
 		}
+		
 		return $this->copyFiles($copyfiles);
 	}
 	
@@ -472,8 +499,18 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 		 *
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
-		 */
-		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
+		 */		
+		 
+		 $files		= \JFolder::files ($extractdir, '');
+		 $folders	= \JFolder::folders ($extractdir, '');
+		 if (!empty($files) && !empty($folders)) {
+		 	$dirList = array_merge((array)$files, (array)$folders);
+		 } else if (!empty($files)) {
+		 	$dirList = $files;
+		 } else if (!empty ($folders)) {
+		 	$dirList = $folders;
+		 }
+		 
 
 		if (count($dirList) == 1)
 		{
@@ -511,33 +548,35 @@ class PhocaPDFCpModelPhocaPDFFonts extends JModelList
 
 		if (!count($files))
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, '');
 			return false;
 		}
 
-		foreach ($files as $file)
-		{
-			$xml = simplexml_load_file($file);
-			
-			if (!$xml)
+		if (!empty($files)) {
+			foreach ($files as $file)
 			{
-				continue;
-			}
-			
-			if ($xml->getName() != 'install')
-			{
+				$xml = simplexml_load_file($file);
+				
+				if (!$xml)
+				{
+					continue;
+				}
+				
+				if ($xml->getName() != 'install')
+				{
+					unset($xml);
+					continue;
+				}
+
+				$type = (string) $xml->attributes()->type;
+
+				// Free up memory
 				unset($xml);
-				continue;
+				return $type;
 			}
-
-			$type = (string) $xml->attributes()->type;
-
-			// Free up memory
-			unset($xml);
-			return $type;
 		}
-
-		JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, 'jerror');
+		
+		JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, '');
 
 		// Free up memory.
 		unset($xml);
