@@ -1,0 +1,56 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaPDF",
+	"extensionName": "Phoca PDF",
+	"projectInitials" : "PDF",				  
+	"description": "Phoca PDF is Joomla! CMS component. It helps to set and create PDF documents in Joomla!. The whole Phoca PDF framework contains: \n- Phoca PDF component \n- Phoca PDF fonts \n- Phoca PDF plugins.",
+	"projectUrl": "https://www.phoca.cz/phocapdf",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/47-phoca-pdf-component",
+	"projectMainComponent": "Phoca PDF",
+	"projectMainComponentInfoUrl": "https://www.phoca.cz/project/phocapdf-joomla-pdf",
+	"projectDemo" : {
+		"Joomla! 3 Demo": "https://www.phoca.cz/joomla3demo/phoca-pdf-demo",
+		"Joomla! 2.5 Demo": "https://www.phoca.cz/joomlademo/phoca-pdf",
+		"Joomla! 1.5 Demo": "https://www.phoca.cz/demo/phocapdf-demo"
+	},
+	"projectColor": "#D50000",												
+	"menu": {
+		"main":{
+			"0" : {
+				"image": "icon-16-ppdf-menu.png",
+				"view": "",
+				"link": "option=com_phocapdf",
+				"title": "COM_PHOCAPDF"
+			}
+		},
+		"submenu": {
+			"0" : {
+				"image": "icon-16-ppdf-cp.png",
+				"view": "phocapdfcp",
+				"link": "option=com_phocapdf",
+				"title": "COM_PHOCAPDF_CONTROLPANEL"
+			},
+			"1": {
+				"image": "icon-16-ppdf-pdf.png",
+				"view": "phocapdfplugins",
+				"link": "option=com_phocapdf&amp;view=phocapdfplugins",
+				"title": "COM_PHOCAPDF_PLUGINS"
+			},
+			"2": {
+				"image": "icon-16-ppdf-font.png",
+				"view": "phocapdffonts",
+				"link": "option=com_phocapdf&amp;view=phocapdffonts",
+				"title": "COM_PHOCAPDF_FONTS"
+			},
+			"3": {
+				"image": "icon-16-ppdf-info.png",
+				"view": "phocapdfinfo",
+				"link": "option=com_phocapdf&amp;view=phocapdfinfo",
+				"title": "COM_PHOCAPDF_INFO"
+			}
+		}
+	}
+}
