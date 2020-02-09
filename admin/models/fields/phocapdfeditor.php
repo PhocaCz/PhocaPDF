@@ -75,6 +75,7 @@ class JFormFieldPhocaPDFEditor extends JFormField
 
 			// Get the editor type attribute. Can be in the form of: editor="desired|alternative".
 			$type = trim((string) $this->element['editor']);
+
 			if ($type) {
 				// Get the list of editor types.
 				$types = explode('|', $type);
@@ -104,7 +105,17 @@ class JFormFieldPhocaPDFEditor extends JFormField
 			}
 
 			// Create the JEditor intance based on the given editor.
-			$this->editor = \Joomla\CMS\Editor\Editor::getInstance($editor ? $editor : null);
+			//$this->editor = \Joomla\CMS\Editor\Editor::getInstance($editor ? $editor : null);
+
+           // $this->editor = JFactory::getEditor($editor ? $editor : null);
+
+            if (is_null($editor)){
+                $conf = JFactory::getConfig();
+                $editor = $conf->get('editor');
+            }
+
+            $this->editor = \Joomla\CMS\Editor\Editor::getInstance($editor);
+
 		}
 
 		return $this->editor;

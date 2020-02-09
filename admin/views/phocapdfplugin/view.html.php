@@ -42,6 +42,7 @@ class PhocaPDFCpViewPhocaPDFPlugin extends JViewLegacy
 		
 		$i = 0;
 		
+		$lang = JFactory::getLanguage();
 		foreach ($this->items as $key => $value) {
 		
 			if ((int)$this->tmpl['id'] > 0) {
@@ -59,12 +60,15 @@ class PhocaPDFCpViewPhocaPDFPlugin extends JViewLegacy
 				}
 			}
 			$value->name = str_replace('Phoca PDF - ', '', $value->name);
+			
+			$lang->load($value->name);
+			
 			$link		 = 'index.php?option=com_phocapdf&view=phocapdfplugin&task=phocapdfplugin.edit&extension_id='.(int)$value->extension_id;
-			$value->link = '<a href="'.$link.'">'.JText::_($value->name).'</a>';
+			$value->link = '<a href="'.$link.'">'. str_replace('Phoca PDF ', '', JText::_($value->name)).'</a>';
 			$i++;
 		}
 		
-	
+		
 		$this->addToolbar();
 		parent::display($tpl);
 	}

@@ -59,7 +59,7 @@ Phoca PDF is Joomla! CMS component. It helps to set and create PDF documents in 
 
 ## Version
 
-3.0.6
+3.0.9
 
 
 

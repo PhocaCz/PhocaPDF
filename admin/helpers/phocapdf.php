@@ -141,6 +141,13 @@ class PhocaPDFHelper
 	
 	
 	public static function getPhocaInfo($pdf = 1) {
+		
+		JPluginHelper::importPlugin('phocatools');
+        $results = \JFactory::getApplication()->triggerEvent('PhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
+        if (isset($results[0]) && $results[0] === true) {
+            return '';
+        }
+		
 		$params = JComponentHelper::getParams('com_phocapdf') ;
 		
 		$pdf 	= $params->get( 'pdf_id', 1);
@@ -191,6 +198,14 @@ class PhocaPDFHelper
 class PhocaPDFCell
 {
 	public static function setCell($pdf = 1) {
+		
+		JPluginHelper::importPlugin('phocatools');
+        $results = \JFactory::getApplication()->triggerEvent('PhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
+        if (isset($results[0]) && $results[0] === true) {
+            return '';
+        }
+		
+		
 		$params = JComponentHelper::getParams('com_phocapdf') ;
 		$pdf 	= $params->get( 'pdf_id', 1);
 		if ($pdf == 1) {

@@ -84,11 +84,30 @@ class ContentViewArticle extends JViewLegacy
 			}
 		}
 
+
+		
+		/*
 		if ($item->params->get('show_intro', 1) == 1) {
 			$item->text = $item->introtext . ' ' . $item->fulltext;
 		} else {
 			$item->text = $item->fulltext;
+		}*/
+      
+      	if ($item->params->get('show_intro', '1') == '1')
+		{
+			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
+		elseif ($item->fulltext)
+		{
+			$item->text = $item->fulltext;
+		}
+		else
+		{
+			$item->text = $item->introtext;
+		}
+		
+		
+		
 
 		$item->article_text = $item->text; // Don't render the plugins, etc.
 

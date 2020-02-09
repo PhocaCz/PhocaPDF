@@ -11,6 +11,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.application.component.modeladmin');
 
 
@@ -88,7 +91,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('phocapdfplugin.id');
 
 		if (!isset($this->_cache[$pk])) {
-			$false	= false;
+			//$false	= false;
 
 			// Get a row instance.
 			$table = $this->getTable();
@@ -105,16 +108,18 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$prop = $table->getProperties(1);
-			$this->_cache[$pk] = \Joomla\Utilities\ArrayHelper::toObject($prop, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($prop, 'JObject');
 
 			// Convert the params field to an array.
 
-            if (isset($item->params)) {
-                $registry = new JRegistry;
-                $registry->loadString($table->params);
-            }
+            // Convert the params field to an array.
+			$registry = new Registry($table->params);
+            /*if (isset($item->params)) {
 
-			$this->_cache[$pk]->params = $registry->toArray();
+                $registry->loadString($table->params);
+
+            }*/
+            $this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
 
@@ -126,6 +131,8 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 			} else {
 				$this->_cache[$pk]->xml = null;
 			}
+
+
 		}
 
 		return $this->_cache[$pk];
@@ -223,6 +230,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 
 		// Setup type
 		$data['type'] = 'plugin';
+
 
 		return parent::save($data);
 	}
