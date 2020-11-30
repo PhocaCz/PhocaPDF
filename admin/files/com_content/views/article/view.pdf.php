@@ -148,6 +148,15 @@ class ContentViewArticle extends JViewLegacy
 
 		$document = JFactory::getDocument();
 		$document->setHeader($this->getHeaderText($item, $params));
+		
+		// Change the item output - e.g. add intro image to the content
+		JPluginHelper::importPlugin('phocapdf', 'content');
+		
+		//$content 	= new JObject();
+		//JFactory::getApplication()->triggerEvent('onBeforeCreatePDFContent', array (&$content));
+		//JFactory::getApplication()->triggerEvent('onBeforeRenderOutputContent', array (&$item, $content));	
+		JFactory::getApplication()->triggerEvent('onBeforeRenderOutputContent', array (&$item));
+	
 
 		echo $item->text;
 		$document->setArticleText($item->article_text);

@@ -2,7 +2,7 @@
 
 
 
-![Phoca PDF](https://github.com/PhocaCz/PhocaPDF/blob/master/phocapdf.png)
+![Phoca PDF](https://github.com/PhocaCz/PhocaPDF/blob/master/phocapdf.png?raw=true)
 
 # Phoca PDF
 
@@ -61,7 +61,7 @@ Phoca PDF is Joomla! CMS component. It helps to set and create PDF documents in 
 
 ## Version
 
-3.0.10
+3.0.11
 
 
 
