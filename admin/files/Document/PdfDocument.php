@@ -8,7 +8,7 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
- 
+
 namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
@@ -18,27 +18,27 @@ jimport('joomla.filesystem.file');
 
 
 class PdfDocument extends Document
-{ 
+{
 	// Document
 	public $_generator	= 'Phoca PDF';
 	public $_charset 	= 'utf-8';
 	public $_mime 		= 'application/pdf';
 	public $_type 		= 'pdf';
-	
+
 	// PDF (Html)
 	public $_links 		= array();
 	public $_custom 	= array();
 	protected $_caching = null;
-	
+
 	// PDF
 	public $_header			= null;
 	public $_name			= 'Phoca';
 	public $_article_title 	= '';
 	public $_article_text	= '';
 
-	
+
 	public function __construct($options = array()) {
-		
+
 		parent::__construct($options);
 		$this->_type = 'pdf';
 		$this->_mime = 'application/pdf';
@@ -49,7 +49,7 @@ class PdfDocument extends Document
 		//$this->setMetaData('Content-Type', 'application/pdf', true);
 		//$this->setMetaData('robots', 'index, follow');
 	}
-	
+
 	function setHeader($text) {
 		$this->_header = $text;
 	}
@@ -64,7 +64,7 @@ class PdfDocument extends Document
 	function getName() {
 		return $this->_name;
 	}
-	
+
 	function setArticleText($text) {
 		$this->_article_text = $text;
 	}
@@ -72,11 +72,11 @@ class PdfDocument extends Document
 	function getArticleText() {
 		return $this->_article_text;
 	}
-	
+
 /*	function setArticleTitle($text) {
 		$this->_article_title = $text;
 	}
-*/	
+*/
 	function setArticleTitle($text) {
 		$this->_name = $text;
 		$this->_article_title = $text;
@@ -85,16 +85,16 @@ class PdfDocument extends Document
 	function getArticleTitle() {
 		return $this->_article_title;
 	}
-	
-	
+
+
 
 	function render( $caching = false, $params = array()) {
-		
+
 		//header('Content-type: application/pdf');
 		//J Response::allowCache(false);
 		\JFactory::getApplication()->setHeader('Content-type', 'application/pdf', true);// Because of cache
 		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
-		
+
 		//$this->_caching = $caching;
 		//Call static function because of using on different places by different extensions
 		if (\JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
@@ -105,16 +105,16 @@ class PdfDocument extends Document
 		}
 
 		parent::render();
-		
+
 		$data = \PhocaPdfRender::renderPDF($this);
 
 		return $data;
 	}
-	
-	function addCustomTag() {	
+
+	function addCustomTag() {
 		return true;
 	}
-	
+
 	public function getHeadData() {
 		$data = array();
 		$data['title']		= $this->title;
@@ -129,14 +129,14 @@ class PdfDocument extends Document
 		$data['custom']		= $this->_custom;
 		return $data;
 	}
-	
+
 	public function setHeadData($data)
 	{
-		
+
 		if (empty($data) || !is_array($data)) {
 			return;
 		}
-		
+
 		$this->title		= (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
 		$this->link			= (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
@@ -146,11 +146,11 @@ class PdfDocument extends Document
 		$this->_style		= array();//(isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
 		$this->_scripts		= array();//(isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
 		$this->_script		= array();//(isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom		= array();//(isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;	
+		$this->_custom		= array();//(isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 	}
 
 
-	/* 
+	/*
 	public function setBuffer($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
