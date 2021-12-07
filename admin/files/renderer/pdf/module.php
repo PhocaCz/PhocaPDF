@@ -1,3 +1,6 @@
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Factory;
 <?php
 /**
  * @package     Joomla.Platform
@@ -16,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.5
  */
-class JDocumentRendererPDFModule extends JDocumentRenderer
+class DocumentRendererPDFModule extends DocumentRenderer
 {
 	/**
 	 * Renders a module script and returns the results as a string
@@ -35,7 +38,7 @@ class JDocumentRendererPDFModule extends JDocumentRenderer
 		{
 			$title = isset($attribs['title']) ? $attribs['title'] : null;
 
-			$module = JModuleHelper::getModule($module, $title);
+			$module = ModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))
 			{
@@ -78,18 +81,18 @@ class JDocumentRendererPDFModule extends JDocumentRenderer
 		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
 		$cachemode = $params->get('cachemode', 'oldstatic');
 
-		if ($params->get('cache', 0) == 1 && JFactory::getConfig()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($params->get('cache', 0) == 1 && Factory::getConfig()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new stdClass;
 			$cacheparams->cachemode = $cachemode;
-			$cacheparams->class = 'JModuleHelper';
+			$cacheparams->class = 'ModuleHelper';
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 
-			return JModuleHelper::ModuleCache($module, $params, $cacheparams);
+			return ModuleHelper::ModuleCache($module, $params, $cacheparams);
 		}
 
-		return JModuleHelper::renderModule($module, $attribs);
+		return ModuleHelper::renderModule($module, $attribs);
 	}
 }

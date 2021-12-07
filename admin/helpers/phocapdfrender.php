@@ -13,20 +13,25 @@ use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
 defined('JPATH_BASE') or die();
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Plugin\CMSPlugin;
 jimport('joomla.filesystem.file');
 
-class PhocaPDFRender extends JDocument
+class PhocaPDFRender extends Document
 {
 
 	public static function renderPDF( $document = '', $staticData = array()) {
 
 		// LOADING OF HELPER FILES (extended TCPDF library), LISTENING TO Phoca PDF Plugins
-		$option = JFactory::getApplication()->input->getCmd('option');
+		$option = Factory::getApplication()->input->getCmd('option');
 		$t 		= \Joomla\String\StringHelper::ucfirst(str_replace('com_', '', $option));
 
 		// Used abstract class of Phoca PDF (e.g. in VM)
 		if ($option == 'com_phocapdf') {
-			$type = JFactory::getApplication()->input->getCmd('type');
+			$type = Factory::getApplication()->input->getCmd('type');
 			switch($type) {
 
 				case 'invoice':
@@ -52,13 +57,13 @@ class PhocaPDFRender extends JDocument
 		switch ($option) {
 			case 'com_content':
 
-				$content 	= new JObject();
+				$content 	= new CMSObject();
 				// Get info from Phoca PDF Content Plugin
 
-				JPluginHelper::importPlugin('phocapdf', 'content');
-				$results 	= \JFactory::getApplication()->triggerEvent('onBeforeCreatePDFContent', array (&$content));
+				PluginHelper::importPlugin('phocapdf', 'content');
+				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFContent', array (&$content));
 
-				if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
+				if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
 					require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php');
 					$pdf = new PhocaPDFContentTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -74,13 +79,13 @@ class PhocaPDFRender extends JDocument
 			case 'com_phocamenu':
 
 				// Get info from Phoca PDF Restaurant Menu Plugin
-				$content 	= new JObject();
+				$content 	= new CMSObject();
 
-				JPluginHelper::importPlugin('phocapdf');
+				PluginHelper::importPlugin('phocapdf');
 
-				$results 	= \JFactory::getApplication()->triggerEvent('onBeforeCreatePDFRestaurantMenu', array (&$content));
+				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFRestaurantMenu', array (&$content));
 
-				if (JFile::exists(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php')) {
+				if (File::exists(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php');
 					$pdf = new PhocaPDFRestaurantMenuTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -93,13 +98,13 @@ class PhocaPDFRender extends JDocument
 			case 'com_phocacart':
 
 				// Get info from Phoca PDF Phoca Cart Plugin
-				$content 	= new JObject();
+				$content 	= new CMSObject();
 
-				JPluginHelper::importPlugin('phocapdf');
+				PluginHelper::importPlugin('phocapdf');
 
-				$results 	= \JFactory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array (&$content, $staticData));
+				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array (&$content, $staticData));
 
-				if (JFile::exists(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php')) {
+				if (File::exists(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php');
 					$pdf = new PhocaPDFPhocaCartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -113,13 +118,13 @@ class PhocaPDFRender extends JDocument
 			case 'com_virtuemart':
 
 				// Get info from Phoca PDF VirtueMart Plugin
-				$content 	= new JObject();
+				$content 	= new CMSObject();
 
-				JPluginHelper::importPlugin('phocapdf');
+				PluginHelper::importPlugin('phocapdf');
 
-				$results 	= \JFactory::getApplication()->triggerEvent('onBeforeCreatePDFVirtueMart', array (&$content, $staticData));
+				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFVirtueMart', array (&$content, $staticData));
 
-				if (JFile::exists(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php')) {
+				if (File::exists(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php');
 					$pdf = new PhocaPDFVirtueMartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 					$pdf->setStaticData($staticData);
@@ -132,14 +137,14 @@ class PhocaPDFRender extends JDocument
 			break;
 			default:
 
-                $content 	= new JObject();
+                $content 	= new CMSObject();
 			   if (JPluginhelper::isEnabled('phocapdf',strtolower($t))){
-				  JPluginHelper::importPlugin( 'phocapdf' );
-					$results = \JFactory::getApplication()->triggerEvent('onBeforeCreatePDF'.$t, array(&$content));
-					if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
+				  PluginHelper::importPlugin( 'phocapdf' );
+					$results = Factory::getApplication()->triggerEvent('onBeforeCreatePDF'.$t, array(&$content));
+					if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
 						require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php');
 						$pdf = new PhocaPDFContentTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
-						$results = \JFactory::getApplication()->triggerEvent('onBeforeDisplayPDF'.$t, array (&$pdf, &$content, &$document));
+						$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDF'.$t, array (&$pdf, &$content, &$document));
 					} else {
 						throw new Exception('Document cannot be created - Loading of Phoca PDF library (Content) failed', 500);
 						return false;
@@ -153,7 +158,7 @@ class PhocaPDFRender extends JDocument
 			/*
 			default:
 				$dispatcher   = JEventDispatcher::getInstance();
-				JPluginHelper::importPlugin( 'phocapdf' );
+				PluginHelper::importPlugin( 'phocapdf' );
 				$results = $dispatcher->trigger('onBeforeDisplayPDF'.$t, array (&$pdf, &$content, &$document));
 
 			break;*/
@@ -186,26 +191,26 @@ class PhocaPDFRender extends JDocument
 		switch ($option) {
 			case 'com_content':
 
-				$results = \JFactory::getApplication()->triggerEvent('onBeforeDisplayPDFContent', array (&$pdf, &$content, &$document));
+				$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDFContent', array (&$pdf, &$content, &$document));
 
 			break;
 
 			case 'com_phocamenu':
 
-				$results = \JFactory::getApplication()->triggerEvent('onBeforeDisplayPDFRestaurantMenu', array (&$pdf, &$content, &$document));
+				$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDFRestaurantMenu', array (&$pdf, &$content, &$document));
 
 			break;
 
 			case 'com_phocacart':
 
 
-				$results = \JFactory::getApplication()->triggerEvent('onBeforeDisplayPDFPhocaCart', array (&$pdf, &$content, &$document, $staticData));
+				$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDFPhocaCart', array (&$pdf, &$content, &$document, $staticData));
 
 			break;
 
 			case 'com_virtuemart':
 
-				$results = \JFactory::getApplication()->triggerEvent('onBeforeDisplayPDFVirtueMart', array (&$pdf, &$content, &$document, $staticData));
+				$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDFVirtueMart', array (&$pdf, &$content, &$document, $staticData));
 
 			break;
 		}
@@ -226,7 +231,7 @@ class PhocaPDFRender extends JDocument
 
 
 		// Called from administrator area (administrator calls frontend view, but it still administrator area)
-		$adminView	= JFactory::getApplication()->input->get('admin', 0, 'int');
+		$adminView	= Factory::getApplication()->input->get('admin', 0, 'int');
 		if ($adminView == 1) {
 			$content->pdf_destination = 'S';
 		}
@@ -271,10 +276,10 @@ class PhocaPDFRender extends JDocument
 
         self::defineConstants();
 
-        JPluginHelper::importPlugin('phocapdf');
-        $results = JFactory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array(&$content, $staticData));
+        PluginHelper::importPlugin('phocapdf');
+        $results = Factory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array(&$content, $staticData));
 
-        if (JFile::exists(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php')) {
+        if (File::exists(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php')) {
             require_once(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php');
             $pdf = new PhocaPDFPhocaCartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
         } else {
@@ -319,7 +324,7 @@ class PhocaPDFRender extends JDocument
 
 
 
-	    $results = JFactory::getApplication()->triggerEvent('onBeforeDisplayPDFPhocaCart', array (&$pdf, &$content, &$document, $staticData));
+	    $results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDFPhocaCart', array (&$pdf, &$content, &$document, $staticData));
 
 		// If there is a file, store it to server
 		// Case for VM sending invoice - the file is stored on server and sent
@@ -334,7 +339,7 @@ class PhocaPDFRender extends JDocument
 		}
 
 		// Called from administrator area (administrator calls frontend view, but it still administrator area)
-		$adminView	= JFactory::getApplication()->input->get('admin', 0, 'int');
+		$adminView	= Factory::getApplication()->input->get('admin', 0, 'int');
 		if ($adminView == 1) {
 			$content->pdf_destination = 'S';
 		}
@@ -363,7 +368,7 @@ class PhocaPDFRender extends JDocument
 		if(!defined('K_PATH_URL'))				{define("K_PATH_URL", JPATH_BASE);}// URL path
 		if(!defined('K_PATH_FONTS'))	        {define("K_PATH_FONTS", JPATH_ADMINISTRATOR.'/components/com_phocapdf/fonts/');}
 		if(!defined('K_PATH_CACHE'))			{define("K_PATH_CACHE", K_PATH_MAIN.'/cache/');}// Cache directory path
-		$urlPath = JURI::base(true) . '/administrator/components/com_phocapdf/assets/tcpdf/';// Cache URL path
+		$urlPath = JUri::base(true) . '/administrator/components/com_phocapdf/assets/tcpdf/';// Cache URL path
 		if(!defined('K_PATH_URL_CACHE'))		{define("K_PATH_URL_CACHE", $urlPath.'cache/');}
 		if(!defined('K_PATH_IMAGES'))			{define("K_PATH_IMAGES", K_PATH_MAIN.'/images/');}// Images path
 		if(!defined('K_BLANK_IMAGE'))			{define("K_BLANK_IMAGE", K_PATH_IMAGES."/_blank.png");}// Blank image path

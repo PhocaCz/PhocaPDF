@@ -9,9 +9,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Controller\BaseController;
 jimport('joomla.application.component.controllerform');
 
-class PhocaPDFCpControllerPhocaPDFPlugins extends JControllerLegacy
+class PhocaPDFCpControllerPhocaPDFPlugins extends BaseController
 {
 	protected	$option 		= 'com_phocapdf';
 }

@@ -9,10 +9,13 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaHead extends JFormField
+class JFormFieldPhocaHead extends FormField
 {
 	protected $type = 'PhocaHead';
 	
@@ -30,7 +33,7 @@ class JFormFieldPhocaHead extends JFormField
 		$style		= 'background: #CCE6FF; color: #0069CC;padding:5px;margin:5px 0;';
 		
 		if ($phocaImage != ''){
-			$image 	= JHTML::_('image', 'media/com_phocapdf/images/adminstrator/'. $phocaImage, '' );
+			$image 	= HTMLHelper::_('image', 'media/com_phocapdf/images/adminstrator/'. $phocaImage, '' );
 		}
 		
 		if ($this->element['default']) {
@@ -40,12 +43,12 @@ class JFormFieldPhocaHead extends JFormField
 				.'<table border="0"><tr>'
 				.'<td valign="middle" align="center">'. $image.'</td>'
 				.'<td valign="middle" align="center">'
-				.'<strong>'. JText::_($this->element['default']) . '</strong></td>'
+				.'<strong>'. Text::_($this->element['default']) . '</strong></td>'
 				.'</tr></table>'
 				.'</div>';
 			} else {
 				return '<div style="'.$style.'">'
-				.'<strong>'. JText::_($this->element['default']) . '</strong>'
+				.'<strong>'. Text::_($this->element['default']) . '</strong>'
 				.'</div>';
 			}
 		} else {
@@ -62,7 +65,7 @@ class JFormFieldPhocaHead extends JFormField
 		$style		= 'background: #CCE6FF; color: #0069CC; padding: 5px; vertical-align: middle';
 		
 		if ($phocaImage != ''){
-			$image 	= JHTML::_('image', 'administrator/components/com_phocagallery/assets/images/'. $phocaImage, '' );
+			$image 	= HTMLHelper::_('image', 'administrator/components/com_phocagallery/assets/images/'. $phocaImage, '' );
 			$style	= 'background: #CCE6FF; color: #0069CC; height:65px; padding: 5px; vertical-align: middle';
 		}
 		
@@ -71,7 +74,7 @@ class JFormFieldPhocaHead extends JFormField
 			return $image;
 			/*return ''
 			.'<li><div style="'.$style.'"><label>'. $image.'</label>'
-			.'<strong>'. JText::_($this->element['label']) . '</strong>'
+			.'<strong>'. Text::_($this->element['label']) . '</strong>'
 			.'</div></li>';*/
 			
 			
@@ -79,7 +82,7 @@ class JFormFieldPhocaHead extends JFormField
 		//echo '<div class="clearfix"></div>';
 		/*return ''
 			.'<li><div style="'.$style.'"><label>'. $image.'</label>'
-			.'<strong>'. JText::_($this->element['label']) . '</strong>'
+			.'<strong>'. Text::_($this->element['label']) . '</strong>'
 			.'</div></li>';
 			
 		return $image;

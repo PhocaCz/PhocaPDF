@@ -9,11 +9,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die('Restricted access');
-JHTML::_('behavior.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
+JHtml::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 ?>
 <div id="phocapdf">
-<form action="<?php echo JRoute::_('index.php?option=com_phocapdf&view=phocapdfplugins'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_phocapdf&view=phocapdfplugins'); ?>" method="post" name="adminForm" id="adminForm">
 
 <table border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -30,15 +34,15 @@ jimport('joomla.filesystem.file');
 		<td valign="top">
 		<div class="phoca-plugins"><?php
 		if(isset($this->tmpl['plugin']->element)) {
-			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->tmpl['plugin']->element.'.php')) {
+			if (File::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->tmpl['plugin']->element.'.php')) {
 
 				echo $this->loadTemplate($this->tmpl['plugin']->element);
 			} else {
-				echo JText::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');
+				echo Text::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');
 			}
 				
 		} else {
-			echo JText::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
+			echo Text::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
 		}
 		
 

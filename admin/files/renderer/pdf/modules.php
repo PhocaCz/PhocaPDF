@@ -1,3 +1,7 @@
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 <?php
 /**
  * @package     Joomla.Platform
@@ -14,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.5
  */
-class JDocumentRendererPDFModules extends JDocumentRenderer
+class DocumentRendererPDFModules extends DocumentRenderer
 {
 	/**
 	 * Renders multiple modules script and returns the results as a string
@@ -32,19 +36,19 @@ class JDocumentRendererPDFModules extends JDocumentRenderer
 		$renderer = $this->_doc->loadRenderer('module');
 		$buffer   = '';
 
-		$app          = JFactory::getApplication();
-		$user         = JFactory::getUser();
+		$app          = Factory::getApplication();
+		$user         = Factory::getUser();
 		$frontediting = ($app->isSite() && $app->get('frontediting', 1) && !$user->guest);
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
-		foreach (JModuleHelper::getModules($position) as $mod)
+		foreach (ModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
 			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
-				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
+				LayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
 			}
 
 			$buffer .= $moduleHtml;

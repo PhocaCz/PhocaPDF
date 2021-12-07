@@ -11,6 +11,9 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+
 defined('JPATH_PLATFORM') or die;
 jimport('joomla.application.module.helper');
 jimport('joomla.document.document');
@@ -44,7 +47,7 @@ class PdfDocument extends Document
 		$this->_mime = 'application/pdf';
 		$this->_caching = null;
 		//header('Content-type: application/pdf');
-		\JFactory::getApplication()->setHeader('Content-type', 'application/pdf', true);//Because of cache
+		Factory::getApplication()->setHeader('Content-type', 'application/pdf', true);//Because of cache
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		//$this->setMetaData('Content-Type', 'application/pdf', true);
 		//$this->setMetaData('robots', 'index, follow');
@@ -92,12 +95,12 @@ class PdfDocument extends Document
 
 		//header('Content-type: application/pdf');
 		//J Response::allowCache(false);
-		\JFactory::getApplication()->setHeader('Content-type', 'application/pdf', true);// Because of cache
-		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
+		Factory::getApplication()->setHeader('Content-type', 'application/pdf', true);// Because of cache
+		Factory::getApplication()->setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 
 		//$this->_caching = $caching;
 		//Call static function because of using on different places by different extensions
-		if (\JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
+		if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
 			require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php');
 		} else {
 			throw new Exception('Document cannot be created - Loading of Phoca PDF library (Render) failed', 500);

@@ -9,9 +9,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 jimport('joomla.application.component.view');
 
-class ContentViewArticle extends JViewLegacy
+class ContentViewArticle extends HtmlView
 {
 	protected $state;
 	protected $item;
@@ -19,8 +26,8 @@ class ContentViewArticle extends JViewLegacy
 
 	function display($tpl = null)
 	{
-		$app 		= JFactory::getApplication();
-		$user 		= JFactory::getUser();
+		$app 		= Factory::getApplication();
+		$user 		= Factory::getUser();
 
 
 		$state 		= $this->get('State');
@@ -41,7 +48,7 @@ class ContentViewArticle extends JViewLegacy
 
 		$params 		= $state->get('params');
 
-		$article_params 	= new JRegistry();
+		$article_params 	= new Registry();
 		$article_params->loadString($item->attribs);
 		$active 		= $app->getMenu()->getActive();
 		$temp = clone ($params);
@@ -73,13 +80,13 @@ class ContentViewArticle extends JViewLegacy
 			if (($params->get('show_noauth')) AND ($user->get('guest')))
 			{
 				// Redirect to login
-				$uri = \Joomla\CMS\Uri\Uri::getInstance();
-				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('COM_CONTENT_ERROR_LOGIN_TO_VIEW_ARTICLE'));
+				$uri = Uri::getInstance();
+				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), Text::_('COM_CONTENT_ERROR_LOGIN_TO_VIEW_ARTICLE'));
 				return;
 			}
 			else
 			{
-				echo JText::_('COM_PHOCAPDF_NOT_AUTHORIZED_DO_ACTION');
+				echo Text::_('COM_PHOCAPDF_NOT_AUTHORIZED_DO_ACTION');
 				return;
 			}
 		}
@@ -114,11 +121,11 @@ class ContentViewArticle extends JViewLegacy
 		//
 		// Process the content plugins.
 		//
-		JPluginHelper::importPlugin('content');
-		$results = \JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, $offset));
+		PluginHelper::importPlugin('content');
+		$results = Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, $offset));
 
 		$item->event = new stdClass();
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
 	/*	$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$params, $offset));
@@ -146,16 +153,16 @@ class ContentViewArticle extends JViewLegacy
 			$model->hit();
 		}
 
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->setHeader($this->getHeaderText($item, $params));
 		
 		// Change the item output - e.g. add intro image to the content
-		JPluginHelper::importPlugin('phocapdf', 'content');
+		PluginHelper::importPlugin('phocapdf', 'content');
 		
 		//$content 	= new JObject();
 		//JFactory::getApplication()->triggerEvent('onBeforeCreatePDFContent', array (&$content));
 		//JFactory::getApplication()->triggerEvent('onBeforeRenderOutputContent', array (&$item, $content));	
-		JFactory::getApplication()->triggerEvent('onBeforeRenderOutputContent', array (&$item));
+		Factory::getApplication()->triggerEvent('onBeforeRenderOutputContent', array (&$item));
 	
 
 		echo $item->text;
@@ -172,7 +179,7 @@ class ContentViewArticle extends JViewLegacy
 		if ($params->get('show_category')) {
 			$text .= "\n";
 			$title = $this->escape($item->category_title);
-			$text .= JText::sprintf('COM_CONTENT_CATEGORY', $title);
+			$text .= Text::sprintf('COM_CONTENT_CATEGORY', $title);
 		}
 
 
@@ -182,7 +189,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		if ($params->get('show_create_date')) {
-			$text .= JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC2')));
+			$text .= Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC2')));
 		}
 
 
@@ -192,24 +199,24 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		if ($params->get('show_modify_date')) {
-			$text .= JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date',$item->modified, JText::_('DATE_FORMAT_LC2')));
+			$text .= Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date',$item->modified, Text::_('DATE_FORMAT_LC2')));
 		}
 
 		if ($params->get('show_publish_date')) {
 			$text .= "\n";
-			$text .= JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC2')));
+			$text .= Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC2')));
 		}
 
 		if ($params->get('show_author') && !empty($item->author )) {
 
 			$text .= "\n";
 			$author=($item->created_by_alias ? $item->created_by_alias : $item->author);
-			$text .= JText::sprintf('COM_CONTENT_WRITTEN_BY', $author);
+			$text .= Text::sprintf('COM_CONTENT_WRITTEN_BY', $author);
 		}
 
 		if ($params->get('show_hits')) {
 			$text .= "\n";
-			$text .= JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits);
+			$text .= Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits);
 		}
 
 		return $text;

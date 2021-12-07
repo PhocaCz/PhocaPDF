@@ -9,9 +9,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\Factory;
 
 // Require specific controller if requested
-if($controller = JFactory::getApplication()->input->get('controller')) {
+if($controller = Factory::getApplication()->input->get('controller')) {
     $path = JPATH_COMPONENT.'/controller/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
@@ -22,6 +23,6 @@ if($controller = JFactory::getApplication()->input->get('controller')) {
 
 $classname    = 'PhocaPDFController'.ucfirst($controller);
 $controller   = new $classname( );
-$controller->execute( JFactory::getApplication()->input->get('task') );
+$controller->execute( Factory::getApplication()->input->get('task') );
 $controller->redirect();
 ?>

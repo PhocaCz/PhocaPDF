@@ -1,3 +1,4 @@
+use Joomla\CMS\Document\DocumentRenderer;
 <?php
 /**
  * @package     Joomla.Platform
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.5
  */
-class JDocumentRendererPDFComponent extends JDocumentRenderer
+class DocumentRendererPDFComponent extends DocumentRenderer
 {
 	/**
 	 * Renders a component script and returns the results as a string

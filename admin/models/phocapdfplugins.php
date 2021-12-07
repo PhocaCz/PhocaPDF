@@ -10,9 +10,10 @@
  */
 
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\ListModel;
 jimport('joomla.application.component.modellist');
 
-class PhocaPDFCpModelPhocaPDFPlugins extends JModelList
+class PhocaPDFCpModelPhocaPDFPlugins extends ListModel
 {
 	protected	$option 		= 'com_phocapdf';
 	

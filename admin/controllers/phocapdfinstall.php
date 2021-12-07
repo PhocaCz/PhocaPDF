@@ -11,6 +11,11 @@
  * utf-8 test: ä,ö,ü,ř,ž
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\File;
 class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 {
 
@@ -20,7 +25,7 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 
 	function fullinstall() {		
 		
-		$db			= JFactory::getDBO();
+		$db			= Factory::getDBO();
 		$dbPref 	= $db->getPrefix();
 		$msgSQL 	= '';
 		$errFile	= array();
@@ -52,9 +57,9 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 			
 		// End Message
 		if ($msgError != '') {
-			$msg = '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR_INSTALL').'</span>: ' . $msgSuccess . $msgError;
+			$msg = '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR_INSTALL').'</span>: ' . $msgSuccess . $msgError;
 		} else {
-			$msg = '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS_INSTALL').'</span>: ' . $msgSuccess;
+			$msg = '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS_INSTALL').'</span>: ' . $msgSuccess;
 		}
 		
 		$link = 'index.php?option=com_phocapdf';
@@ -67,7 +72,7 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	
 	function custominstall() {		
 		
-		$db			= JFactory::getDBO();
+		$db			= Factory::getDBO();
 		$dbPref 	= $db->getPrefix();
 		$msgSQL 	= '';
 		$errFile	= array();
@@ -100,9 +105,9 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 			
 		// End Message
 		if ($msgError != '') {
-			$msg = '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR_INSTALL').'</span>: ' . $msgSuccess . $msgError;
+			$msg = '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR_INSTALL').'</span>: ' . $msgSuccess . $msgError;
 		} else {
-			$msg = '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS_INSTALL').'</span>: ' . $msgSuccess;
+			$msg = '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS_INSTALL').'</span>: ' . $msgSuccess;
 		}
 		
 		$link = 'index.php?option=com_phocapdf';
@@ -116,7 +121,7 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	function upgrade() {
 
 		
-		$db			= JFactory::getDBO();
+		$db			= Factory::getDBO();
 		$dbPref 	= $db->getPrefix();
 		$msgSQL 	= '';
 		$errFile	= array();
@@ -148,9 +153,9 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 			
 		// End Message
 		if ($msgError != '') {
-			$msg = '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR_UPGRADE').'</span>: ' . $msgSuccess . $msgError;
+			$msg = '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR_UPGRADE').'</span>: ' . $msgSuccess . $msgError;
 		} else {
-			$msg = '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS_UPGRADE').'</span>: ' . $msgSuccess;
+			$msg = '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS_UPGRADE').'</span>: ' . $msgSuccess;
 		}
 		
 		$link = 'index.php?option=com_phocapdf';
@@ -163,47 +168,47 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	
 	function installView(&$sccFile, &$errFile) {
 		
-		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
-		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR').'</span> - ';
+		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
+		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR').'</span> - ';
 		jimport( 'joomla.client.helper' );
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
-		$ftp 	= JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp 	= ClientHelper::setCredentialsFromRequest('ftp');
 		
 		$src 		= JPATH_ROOT . '/administrator/components/com_phocapdf/files/pdf/pdf.php';
 		$dest 		= JPATH_ROOT . '/libraries/joomla/document/pdf/pdf.php';
 		$folderPath = JPATH_ROOT . '/libraries/joomla/document/pdf';
 		
-		if(!JFolder::create($folderPath, 0755)) {
-			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
+		if(!Folder::create($folderPath, 0755)) {
+			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
 		} else {
-			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
+			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath);
 		}
 		
 		$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-		if(!JFile::write($folderPath.'/'."index.html", $data)) {
-			$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).'/'."index.html";
+		if(!File::write($folderPath.'/'."index.html", $data)) {
+			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).'/'."index.html";
 		} else {
-			$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).'/'."index.html";
+			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '',$folderPath).'/'."index.html";
 		}
 		
 		
 		if (file_exists($src)) {
-			if (!JFile::copy($src, $dest)) {
-				$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+			if (!File::copy($src, $dest)) {
+				$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 			} else {
-				$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+				$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 			}
 		} else {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src);
 		}	
 		
 		if (!file_exists($dest)) {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 		}
 		
 		return true;// will be not worked, we are working with errorMsg
@@ -211,33 +216,33 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	
 	function installContentView(&$sccFile, &$errFile) {
 		
-		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
-		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR').'</span> - ';
+		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
+		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR').'</span> - ';
 		jimport( 'joomla.client.helper' );
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
-		$ftp 	= JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp 	= ClientHelper::setCredentialsFromRequest('ftp');
 		
 		$src 	= JPATH_ROOT . '/administrator/components/com_phocapdf/files/com_content/views/article/view.pdf.php';
 		$dest 	= JPATH_ROOT . '/components/com_content/views/article/view.pdf.php';
 		
 		
 		if (file_exists($src)) {
-			if (!JFile::copy($src, $dest)) {
-				$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+			if (!File::copy($src, $dest)) {
+				$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 			} else {
-				$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+				$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 			}
 		} else {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src);
 		}	
 		
 		if (!file_exists($dest)) {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $dest);
 		}
 		
 		return true;// will be not worked, we are working with errorMsg
@@ -245,21 +250,21 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	
 	function renameBak(&$sccFile, &$errFile, $fontName = 'freemono') {
 	
-		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
-		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR').'</span> - ';
+		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
+		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR').'</span> - ';
 		
 		$rsrc 		= JPATH_ROOT . '/administrator/components/com_phocapdf/fonts/'  . $fontName . '.bak';
 		$rdest 		= JPATH_ROOT . '/administrator/components/com_phocapdf/fonts/'  . $fontName . '.xml';
 		
 		if (file_exists($rsrc) && !file_exists($rdest)) {
-			if(!JFile::move($rsrc, $rdest)) {
-				$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_RENAMING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rsrc)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
+			if(!File::move($rsrc, $rdest)) {
+				$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_RENAMING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rsrc)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
 			} else {
-				$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_RENAMING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rsrc)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
+				$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_RENAMING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rsrc)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
 			}
 		} else {
 			//$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rsrc);
@@ -267,7 +272,7 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 		}
 
 		if (!file_exists($rdest)) {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $rdest);
 		}
 		
 		return true;// will be not worked, we are working with errorMsg
@@ -275,13 +280,13 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	
 	function installContent(&$sccFile, &$errFile) {
 		
-		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.JText::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
-		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.JText::_('COM_PHOCAPDF_ERROR').'</span> - ';
+		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
+		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR').'</span> - ';
 		
 		jimport( 'joomla.client.helper' );
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
-		$ftp 	=& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp 	=& ClientHelper::setCredentialsFromRequest('ftp');
 		
 		$src[0] = JPATH_ROOT . '/administrator/components/com_phocapdf/files/com_content/views/article/tmpl/default.php';
 		$src[1] = JPATH_ROOT . '/administrator/components/com_phocapdf/files/com_content/views/category/tmpl/blog_item.php';
@@ -296,46 +301,46 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 		foreach ($dest as $destValue) {
 			if (file_exists($destValue)) {
 				
-				if(JFile::getExt($destValue) == 'php') {
+				if(File::getExt($destValue) == 'php') {
 					$destValueBak = str_replace('.php', '.bak.php', $destValue);
 				} else {
 					$destValueBak = $destValue . '.bak';
 				}
 			
-				if(!JFile::copy($destValue, $destValueBak)) {
+				if(!File::copy($destValue, $destValueBak)) {
 					$backUpError = 1;
-					$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_BACKUPING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue)
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' .str_replace( JPATH_ROOT . '/', '', $destValueBak);
+					$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_BACKUPING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue)
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' .str_replace( JPATH_ROOT . '/', '', $destValueBak);
 				} else {
-					$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_BACKUPING' ). ': '
-						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue)
-						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValueBak);
+					$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_BACKUPING' ). ': '
+						. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue)
+						. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValueBak);
 				}
 			} else {
-				$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
+				$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
 			}
 		}
 		if ($backUpError == 1) {
-			$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_CONTENT_FILES_NOT_COPIED' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
+			$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_CONTENT_FILES_NOT_COPIED' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
 			return false;// no more actions if files are not backuped
 		}
 			
 		$i = 0;
 		foreach ($dest as $destValue) {
 			if (file_exists($destValue)) {
-				if(!JFile::copy($src[$i], $destValue)) {
-					$errFile[]	= $error . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[0])
-					. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
+				if(!File::copy($src[$i], $destValue)) {
+					$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[0])
+					. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
 				} else {
-					$sccFile[]	= $success . JText::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
-						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[0])
-						. '<br />&nbsp;&nbsp; - ' . JText::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
+					$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FILE_COPYING' ). ': '
+						. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_SOURCE_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $src[0])
+						. '<br />&nbsp;&nbsp; - ' . Text::_( 'COM_PHOCAPDF_DESTINATION_FILE' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
 				}
 			} else {
 				if ($msgFile != '') { $msgFile .= '<br />';}
-				$errFile[] = $error . JText::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
+				$errFile[] = $error . Text::_( 'COM_PHOCAPDF_ERROR_FILE_NOT_EXIST' ). ': ' . str_replace( JPATH_ROOT . '/', '', $destValue);
 			}
 			$i++;
 		}
@@ -346,7 +351,7 @@ class PhocaPDFCpControllerPhocaPDFInstall extends PhocaPDFCpController
 	function AddColumnIfNotExists($table, $column, $attributes = "INT( 11 ) NOT NULL DEFAULT '0'", $after = '' ) {
 		
 		global $mainframe;
-		$db				=& JFactory::getDBO();
+		$db				=& Factory::getDBO();
 		$columnExists 	= false;
 
 		$query = 'SHOW COLUMNS FROM '.$table;

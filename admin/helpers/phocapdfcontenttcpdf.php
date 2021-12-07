@@ -10,6 +10,8 @@
  */
 jimport( 'joomla.html.parameter' );
 defined('_JEXEC') or die();
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 // Phoca PDF TCPDF
 require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdf.php');
 require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/assets/tcpdf/tcpdf.php');
@@ -22,8 +24,8 @@ class PhocaPDFContentTCPDF extends TCPDF
 		if (empty($this->pluginP)) {
 
 
-			$plugin 	= JPluginHelper::getPlugin('phocapdf', 'content');
-			$this->pluginP 	= new JRegistry();
+			$plugin 	= PluginHelper::getPlugin('phocapdf', 'content');
+			$this->pluginP 	= new Registry();
 			$this->pluginP->loadString($plugin->params);
 		}
 		return $this->pluginP;

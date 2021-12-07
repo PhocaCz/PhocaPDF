@@ -9,13 +9,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 jimport( 'joomla.application.component.controller' );
 
-class PhocaPDFController extends JControllerLegacy
+class PhocaPDFController extends BaseController
 {
 	public function display($cachable = false, $urlparams = false)
 	{
-		$paramsC 	= JComponentHelper::getParams('com_phocapdf');
+		$paramsC 	= ComponentHelper::getParams('com_phocapdf');
 		$cache 		= $paramsC->get( 'enable_cache', 0 );
 		$cachable 	= false;
 		/*if ($cache == 1) {
@@ -25,7 +28,7 @@ class PhocaPDFController extends JControllerLegacy
 		
 		
 		
-		$document 	= JFactory::getDocument();
+		$document 	= Factory::getDocument();
 
 		$safeurlparams = array('catid'=>'INT','id'=>'INT','cid'=>'ARRAY','year'=>'INT','month'=>'INT','limit'=>'INT','limitstart'=>'INT',
 			'showall'=>'INT','return'=>'BASE64','filter'=>'STRING','filter_order'=>'CMD','filter_order_Dir'=>'CMD','filter-search'=>'STRING','print'=>'BOOLEAN','lang'=>'CMD');

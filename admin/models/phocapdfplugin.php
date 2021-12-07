@@ -10,20 +10,31 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Plugin\PluginHelper;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.modeladmin');
 
 
-class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
+class PhocaPDFCpModelPhocaPDFPlugin extends AdminModel
 {
 	protected $option				= 'com_phocapdf';
 	protected $_cache;
 	public 	$typeAlias 				= 'com_phocapdf.phocapdfplugin';
 	protected $event_after_save 	= 'onExtensionAfterSave';
 	protected $event_before_save 	= 'onExtensionBeforeSave';
+	//protected $formName             = 'phocapdfplugin';
 
 	/*protected $event_after_delete = null;
 	protected $event_after_save = null;
@@ -41,16 +52,24 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 			$folder		= $item->folder;
 			$element	= $item->element;
 		} else {
-			$folder		= \Joomla\Utilities\ArrayHelper::getValue($data, 'folder', '', 'cmd');
-			$element	= \Joomla\Utilities\ArrayHelper::getValue($data, 'element', '', 'cmd');
+			$folder		= ArrayHelper::getValue($data, 'folder', '', 'cmd');
+			$element	= ArrayHelper::getValue($data, 'element', '', 'cmd');
 		}
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder',	$folder);
 		$this->setState('item.element',	$element);
 
-		// Get the form.
 
+		// LOAD RIGHT PLUGIN LANGAUGE INTO FORM
+        if (isset($item->name) && $item->name != '') {
+            $app = Factory::getApplication();
+		    $lang = $app->getLanguage();
+		    $lang->load($item->name);
+
+        }
+
+        // Get the form.
 		$form = $this->loadForm('com_phocapdf.phocapdfplugin', 'phocapdfplugin', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form)) {
@@ -76,7 +95,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_phocapdf.edit.phocapdfplugin.data', array());
+		$data = Factory::getApplication()->getUserState('com_phocapdf.edit.phocapdfplugin.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -123,8 +142,8 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 
 			// Get the plugin XML.
 
-			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+			$client	= ApplicationHelper::getClientInfo($table->client_id);
+			$path	= Path::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
 			if (file_exists($path)) {
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
@@ -141,7 +160,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 
 	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	protected function populateState()
@@ -149,14 +168,14 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = (int) $app->input->get('extension_id');
 		$this->setState('phocapdfplugin.id', $pk);
 	}
 
-	protected function preprocessForm(JForm $form, $data, $group = 'phocapdf')
+	protected function preprocessForm(Form $form, $data, $group = 'phocapdf')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -164,20 +183,20 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		// Initialise variables.
 		$folder		= $this->getState('item.folder');
 		$element	= $this->getState('item.element');
-		$lang		= JFactory::getLanguage();
-		$client		= JApplicationHelper::getClientInfo(0);
+		$lang		= Factory::getLanguage();
+		$client		= ApplicationHelper::getClientInfo(0);
 
 		if (empty($folder) || empty($element)) {
-			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_phocapdf&view=phocapdfcp',false), JText::_('COM_PHOCAPDF_NO_FOLDER_OR_ELEMENT_FOUND'));
+			$app = Factory::getApplication();
+			$app->redirect(Route::_('index.php?option=com_phocapdf&view=phocapdfcp',false), Text::_('COM_PHOCAPDF_NO_FOLDER_OR_ELEMENT_FOUND'));
 		}
 		// Try 1.6 format: /plugins/folder/element/element.xml
-		$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'/'.$element.'.xml');
+		$formFile = Path::clean($client->path.'/plugins/'.$folder.'/'.$element.'/'.$element.'.xml');
 		if (!file_exists($formFile)) {
 			// Try 1.5 format: /plugins/folder/element/element.xml
-			$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'.xml');
+			$formFile = Path::clean($client->path.'/plugins/'.$folder.'/'.$element.'.xml');
 			if (!file_exists($formFile)) {
-				throw new Exception(JText::sprintf('COM_PHOCAPDF_ERROR_FILE_NOT_FOUND', $element.'.xml'));
+				throw new Exception(Text::sprintf('COM_PHOCAPDF_ERROR_FILE_NOT_FOUND', $element.'.xml'));
 				return false;
 			}
 		}
@@ -191,13 +210,13 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 		if (file_exists($formFile)) {
 			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config')) {
-				throw new Exception(JText::_('COM_PHOCAPDF_LOADFILE_FAILED'));
+				throw new Exception(Text::_('COM_PHOCAPDF_LOADFILE_FAILED'));
 			}
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile)) {
-			throw new Exception(JText::_('COM_PHOCAPDF_LOADFILE_FAILED'));
+			throw new Exception(Text::_('COM_PHOCAPDF_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
@@ -226,7 +245,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends JModelAdmin
 	public function save($data)
 	{
 		// Load the extension plugin group.
-		JPluginHelper::importPlugin('extension');
+		PluginHelper::importPlugin('extension');
 
 		// Setup type
 		$data['type'] = 'plugin';

@@ -10,22 +10,26 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
-JHtml::_('formbehavior.chosen', 'select');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\File;
+//JHtml::_('behavior.tooltip');
+//JHtml::_('behavior.formvalidation');
+//JHtml::_('formbehavior.chosen', 'select');
 
 
 //$route = 'index.php?option=com_phocapdf&view=phocapdfplugins';
 $route = 'index.php?option=com_phocapdf&amp;layout=edit&amp;extension_id='.(int)$this->item->extension_id;
 
 
-?>
+/*
 <script type="text/javascript">
 Joomla.submitbutton = function(task){
 	if (task == '<?php echo $this->t['task'] ?>.cancel' || document.formvalidator.isValid(document.getElementById('adminForm'))) {
 		<?php //echo $this->form->getField('header_data')->save(); ?>
 		<?php //echo $this->form->getField('footer_data')->save(); ?>
-		<?php
+		<?php /*
 		foreach($this->form->getFieldset('phocaheader') as $k => $v) {
 			if (strtolower($v->type) == 'phocapdfeditor' || strtolower($v->type) == 'editor') {
 				echo $v->save();
@@ -35,17 +39,32 @@ Joomla.submitbutton = function(task){
 			if (strtolower($v->type) == 'phocapdfeditor' || strtolower($v->type) == 'editor') {
 				echo $v->save();
 			}
-		}
+		} *//*
 		?>
 		Joomla.submitform(task, document.getElementById('adminForm'));
 	}
 	else {
-		alert('<?php echo JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true);?>');
+		alert('<?php echo Text::_('JGLOBAL_VALIDATION_FORM_FAILED', true);?>');
 	}
 }
 </script>
+*/
+
+JFactory::getDocument()->addScriptDeclaration(
+
+'Joomla.submitbutton = function(task) {
+	if (task == "'. $this->t['task'].'.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
+		Joomla.submitform(task, document.getElementById("adminForm"));
+	} else {
+        Joomla.renderMessages({"error": ["'. Text::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
+	}
+}'
+
+);
+
+?>
 <div id="phocapdf">
-<form action="<?php echo JRoute::_($route); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
+<form action="<?php echo Route::_($route); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
 
 
 <table border="0" cellpadding="0" cellspacing="0">
@@ -66,14 +85,14 @@ Joomla.submitbutton = function(task){
 
 
 		if(isset($this->item->element)) {
-			if (JFile::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->item->element.'.php')) {
+			if (File::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->item->element.'.php')) {
 
 				echo $this->loadTemplate($this->item->element);
 			} else {
-				echo JText::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');
+				echo Text::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');
 			}
 		} else {
-			echo JText::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
+			echo Text::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
 		}
 
 
@@ -92,6 +111,6 @@ Joomla.submitbutton = function(task){
 <input type="hidden" name="cid[]" value="<?php echo $this->item->extension_id; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="controller" value="phocaplugin" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo HTMLHelper::_( 'form.token' ); ?>
 </form>
 </div>

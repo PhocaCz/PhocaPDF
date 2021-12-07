@@ -7,10 +7,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Client\ClientHelper;
 jimport('joomla.client.helper');
 jimport('joomla.application.component.controlleradmin');
 
-class PhocaPDFCpControllerPhocaPDFFont extends JControllerForm
+class PhocaPDFCpControllerPhocaPDFFont extends FormController
 {
 	protected	$option 		= 'com_phocapdf';
 
@@ -24,10 +30,10 @@ class PhocaPDFCpControllerPhocaPDFFont extends JControllerForm
 	function delete() {
 
 		$cid 	= JFactory::getApplication()->input->get( 'cid', array(), 'array' );// POST (Icon), GET (Small Icon)
-		\Joomla\Utilities\ArrayHelper::toInteger($cid);
+		ArrayHelper::toInteger($cid);
 
 		if (count($cid ) < 1) {
-			throw new Exception(JText::_('COM_PHOCAPDF_SELECT_ITEM_DELETE'), 500);
+			throw new Exception(Text::_('COM_PHOCAPDF_SELECT_ITEM_DELETE'), 500);
 			return false;
 		}
 
@@ -35,9 +41,9 @@ class PhocaPDFCpControllerPhocaPDFFont extends JControllerForm
 		$errorMsg	= $model->delete($cid);
  		if($errorMsg != '') {
 			//echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
-			$msg = JText::_( 'COM_PHOCAPDF_FONT_ERROR_DELETE' ) . '<br />' . $errorMsg;
+			$msg = Text::_( 'COM_PHOCAPDF_FONT_ERROR_DELETE' ) . '<br />' . $errorMsg;
 		} else {
-			$msg = JText::_( 'COM_PHOCAPDF_FONT_SUCCESS_DELETE' );
+			$msg = Text::_( 'COM_PHOCAPDF_FONT_SUCCESS_DELETE' );
 		}
 
 		$this->setRedirect( 'index.php?option=com_phocapdf&view=phocapdffonts', $msg );
@@ -46,19 +52,19 @@ class PhocaPDFCpControllerPhocaPDFFont extends JControllerForm
 
 	function install() {
 		// Check for request forgeries
-		JSession::checkToken() or die( 'Invalid Token' );
+		Session::checkToken() or die( 'Invalid Token' );
 
-		$post 	= JFactory::getApplication()->input->get('post');
-		$ftp 	= JClientHelper::setCredentialsFromRequest('ftp');
+		$post 	= Factory::getApplication()->input->get('post');
+		$ftp 	= ClientHelper::setCredentialsFromRequest('ftp');
 
 		$model = $this->getModel();
 
 		if ($model->install()) {
-			$cache = JFactory::getCache('mod_menu');
+			$cache = Factory::getCache('mod_menu');
 			$cache->clean();
-			$msg = JText::_('COM_PHOCAPDF_NEW_FONT_INSTALLED');
+			$msg = Text::_('COM_PHOCAPDF_NEW_FONT_INSTALLED');
 		} else {
-			$msg = JText::_( 'COM_PHOCAPDF_FONT_ERROR_INSTALL' );
+			$msg = Text::_( 'COM_PHOCAPDF_FONT_ERROR_INSTALL' );
 		}
 
 		$this->setRedirect( 'index.php?option=com_phocapdf&view=phocapdffonts', $msg );

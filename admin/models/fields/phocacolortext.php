@@ -9,22 +9,28 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaColorText extends JFormField
+class JFormFieldPhocaColorText extends FormField
 {
 	protected $type 		= 'PhocaColorText';
 	protected $phocaParams 	= null;
 
 	protected function getInput() {
 	
-		$document		= JFactory::getDocument();
-		$app			= JFactory::getApplication();
+		$document		= Factory::getDocument();
+		$app			= Factory::getApplication();
 		$option 		= $app->input->get('option');
 		$globalValue 	= $this->_getPhocaParams( $this->element['name'] );
 		
-		JHTML::stylesheet( 'administrator/components/com_phocapdf/assets/jcp/picker.css' );
-		$document->addScript(JURI::base(true).'/components/com_phocapdf/assets/jcp/picker.js');
+		HTMLHelper::stylesheet( 'administrator/components/com_phocapdf/assets/jcp/picker.css' );
+		$document->addScript(Uri::base(true).'/components/com_phocapdf/assets/jcp/picker.js');
 		
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
@@ -59,9 +65,9 @@ class JFormFieldPhocaColorText extends JFormField
 		$html[] = '<div class="input-append">';
 		$html[] = '<input type="text" name="'.$this->name.'" id="'.$this->id.'" value="'.$value.'"'
 			   .$class.$size.$disabled.$readonly.$onchange.$maxLength.'/>';
-		$html[] = '<a class="btn" title="'.JText::_('COM_PHOCAPDF_PICK_COLOR').'"'
+		$html[] = '<a class="btn" title="'.Text::_('COM_PHOCAPDF_PICK_COLOR').'"'
 				.' onclick="openPicker(\''.$nameCP.'\')">'
-				. JText::_('COM_PHOCAPDF_PICK_COLOR').'</a>';
+				. Text::_('COM_PHOCAPDF_PICK_COLOR').'</a>';
 		$html[] = '</div>'. "\n";
 			
 		return implode("\n", $html);
@@ -78,7 +84,7 @@ class JFormFieldPhocaColorText extends JFormField
 
 		
 		$component 			= 'com_phocapdf';
-		$paramsC			= JComponentHelper::getParams($component) ;
+		$paramsC			= ComponentHelper::getParams($component) ;
 		$this->phocaParams	= $paramsC;
 	}
 

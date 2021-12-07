@@ -2970,7 +2970,7 @@ class TCPDF {
 
 	/**
 	 * Whether to allow local file path in image html tags, when prefixed with file://
-	 * 
+	 *
 	 * @param bool $allowLocalFiles true, when local files should be allowed. Otherwise false.
 	 * @public
 	 * @since 6.4
@@ -3484,7 +3484,7 @@ class TCPDF {
 			}
 			$cell_height = $this->getCellHeight($headerfont[2] / $this->k);
 			// set starting margin for text data cell
-			if ($headerdata['logo_width'] == '') {$headerdata['logo_width'] = 0;}// PHOCAEDIT																		
+			if ($headerdata['logo_width'] == '') {$headerdata['logo_width'] = 0;}// PHOCAEDIT
 			if ($this->getRTL()) {
 				$header_x = $this->original_rMargin + ($headerdata['logo_width'] * 1.1);
 			} else {
@@ -18978,10 +18978,17 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 					// Xx changed FROM: $_SERVER['DOCUMENT_ROOT'] TO: JPATH_ROOT
 					// 1x changed FROM: K_PATH_MAIN TO: JPATH_ROOT
 
+
 					///if (($imgsrc[0] === '/') AND !empty($_SERVER['DOCUMENT_ROOT']) AND ($_SERVER['DOCUMENT_ROOT'] != '/')) {
-					if (($imgsrc[0] === '/') AND !empty(JPATH_ROOT) AND (JPATH_ROOT != '/')) {
+					//if (($imgsrc[0] === '/') AND !empty(JPATH_ROOT) AND (JPATH_ROOT != '/')) {
+
+
+                    if (strpos($imgsrc, 'http') === 0 || strpos($imgsrc, 'https') === 0) {
+                        // Don't manipulate full url
+                    } else if (!empty(JPATH_ROOT) AND (JPATH_ROOT != '/')) {
 						// fix image path
 						///$findroot = strpos($imgsrc, $_SERVER['DOCUMENT_ROOT']);
+
 						$findroot = strpos($imgsrc, JPATH_ROOT);
 						if (($findroot === false) OR ($findroot > 1)) {
 							///if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
@@ -18990,12 +18997,25 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 								$imgsrc = substr(JPATH_ROOT, 0, -1).$imgsrc;
 							} else {
 								///$imgsrc = $_SERVER['DOCUMENT_ROOT'].$imgsrc;
-								$tmpJb 		= str_replace('/', '\\', JURI::root(true));//JURI::base(true);
+								$tmpJb 		= str_replace('/', '\\', JUri::root(true));//JUri::base(true);
 								$tmpIp 		= str_replace('/', '\\', $imgsrc);
 								$tmpIpWJb	= str_replace($tmpJb, '', $tmpIp);
-								$imgsrc = JPATH_ROOT.$tmpIpWJb;
+
+                                // Is the image path full path?
+                                if (JPATH_ROOT != '') {
+                                    $ds = '';
+                                    $imgsrc = str_replace('\\', '/', $imgsrc);
+                                    $firstPos = substr($imgsrc, 0, 1);// start the path with "/"?
+                                    if ($firstPos != '/') {
+                                        $ds = '/';// If not set the ds (directory separator) between path and image path
+                                    }
+                                    $imgsrc = JPATH_ROOT.$ds.$tmpIpWJb;
+                                }
 							}
 						}
+
+						$imgsrc = str_replace('\\', '/', $imgsrc);
+
 						$imgsrc = urldecode($imgsrc);
 						$testscrtype = @parse_url($imgsrc);
 						if (empty($testscrtype['query'])) {
@@ -19009,7 +19029,11 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						}
 					}
 
+                    $imgsrc = str_replace('\\', '/', $imgsrc);
+
+
 					// END PHOCAEDIT
+
 					// get image type
 					$type = TCPDF_IMAGES::getImageFileType($imgsrc);
 				}
@@ -22889,6 +22913,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 			$this->svgdir = '';
 			$svgdata = substr($file, 1);
 		} else { // SVG file
+            $file = str_replace('\\', '/', $file);//PHOCAEDIT
 			$this->svgdir = dirname($file);
             $svgdata = $this->getCachedFileContents($file);
 		}

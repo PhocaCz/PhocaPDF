@@ -1,3 +1,6 @@
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Application\WebApplication;
+use Joomla\CMS\Filesystem\File;
 <?php
 /*
  * @package		Joomla.Framework
@@ -13,7 +16,7 @@ jimport('joomla.application.module.helper');
 jimport('joomla.document.document');
 jimport('joomla.filesystem.file');
 
-class JDocumentPdf extends JDocument
+class DocumentPdf extends Document
 {
 	// Document
 	public $_generator	= 'Phoca PDF';
@@ -82,11 +85,11 @@ class JDocumentPdf extends JDocument
 		//header('Content-type: application/pdf');
 		//J Response::allowCache(false);
 		JApplicationWeb::setHeader('Content-type', 'application/pdf', true);// Because of cache
-		JApplicationWeb::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
+		WebApplication::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 
 		//$this->_caching = $caching;
 		//Call static function because of using on different places by different extensions
-		if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
+		if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
 			require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php');
 		} else {
 			throw new Exception('Document cannot be created - Loading of Phoca PDF library (Render) failed', 404);

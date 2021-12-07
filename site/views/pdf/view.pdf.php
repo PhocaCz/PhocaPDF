@@ -9,9 +9,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die( 'Restricted access' );
+use Joomla\CMS\MVC\View\HtmlView;
 jimport('joomla.application.component.view');
  // Abstract view to e.g. not load all the VirtueMart page before creating PDF
-class PhocaPDFViewPDF extends JViewLegacy
+class PhocaPDFViewPDF extends HtmlView
 {
 	function display($tpl = null) {
 		parent::display($tpl);

@@ -7,9 +7,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaTextUnit extends JFormField
+class JFormFieldPhocaTextUnit extends FormField
 {
 
 	protected $type = 'PhocaTextUnit';
@@ -20,7 +21,7 @@ class JFormFieldPhocaTextUnit extends JFormField
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="'.(int) $this->element['maxlength'].'"' : '';
-		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : 'class="form-control"';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
@@ -34,7 +35,7 @@ class JFormFieldPhocaTextUnit extends JFormField
 		}
 		
 		if ((int)$this->element['size'] == 3) {
-			$class = ' class="input-small-unit" ';
+			$class = ' class="form-control input-small-unit" ';
 		}
 		
 		

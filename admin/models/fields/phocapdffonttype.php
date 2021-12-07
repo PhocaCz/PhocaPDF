@@ -7,9 +7,13 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\Folder;
 
 
-class JFormFieldPhocaPDFFontType extends JFormField
+class JFormFieldPhocaPDFFontType extends FormField
 {
 	protected $type 		= 'PhocaPDFFontType';
 	protected $path			= null;
@@ -23,20 +27,20 @@ class JFormFieldPhocaPDFFontType extends JFormField
 				if (isset($option->tag)) {
 					$val	= $option->tag;
 					$text	= $option->tag;
-					$options[] = JHTML::_('select.option', $val, JText::_($text));
+					$options[] = HTMLHelper::_('select.option', $val, Text::_($text));
 				}
 			}
 		}
 		if (empty($options)) {
-			return JText::_('COM_PHOCAPDF_NO_PHOCAPDF_FONT_FOUND');
+			return Text::_('COM_PHOCAPDF_NO_PHOCAPDF_FONT_FOUND');
 		} else {
-			return JHTML::_('select.genericlist',  $options, $this->name, 'class="inputbox"', 'value', 'text', $this->value, $this->id);
+			return HTMLHelper::_('select.genericlist',  $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
 		}
 		
 	}
 	
 	protected function _getXmlFiles() {
-		$xmlFiles 		= JFolder::files($this->_getPath(), '.xml$', 1, true);
+		$xmlFiles 		= Folder::files($this->_getPath(), '.xml$', 1, true);
 		
 		$font			= array();
 		

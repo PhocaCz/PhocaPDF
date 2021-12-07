@@ -7,10 +7,17 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 jimport( 'joomla.html.pane' );
 jimport( 'joomla.application.component.view' );
 
-class PhocaPDFCpViewPhocaPDFPlugins extends JViewLegacy
+class PhocaPDFCpViewPhocaPDFPlugins extends HtmlView
 {
 	protected $items;
 	
@@ -18,17 +25,17 @@ class PhocaPDFCpViewPhocaPDFPlugins extends JViewLegacy
 		
 		$this->items		= $this->get('Items');
 		$this->t			= PhocaPDFUtils::setVars('plugin');
-		JHTML::stylesheet( $this->t['s'] );
+		HTMLHelper::stylesheet( $this->t['s'] );
 		
 		// If there is one, select it
 		if (isset($this->items[0]->extension_id) && (int)$this->items[0]->extension_id > 0) {
-			$app	= JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_phocapdf&view=phocapdfplugin&task=phocapdfplugin.edit&extension_id='.(int)$this->items[0]->extension_id, false));
+			$app	= Factory::getApplication();
+			$app->redirect(Route::_('index.php?option=com_phocapdf&view=phocapdfplugin&task=phocapdfplugin.edit&extension_id='.(int)$this->items[0]->extension_id, false));
 			return;
 		}
 		
 		$this->addToolbar();
-		echo JText::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
+		echo Text::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
 	}
 	
 	
@@ -40,14 +47,14 @@ class PhocaPDFCpViewPhocaPDFPlugins extends JViewLegacy
 		//$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo	= PhocaPDFPluginsHelper::getActions($this->t);
 		
-		JToolbarHelper::title(   JText::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
+		ToolbarHelper::title(   Text::_( 'COM_PHOCAPDF_PLUGINS' ), 'power-cord plugin' );
 		
-		$bar = JToolbar::getInstance( 'toolbar' );
+		$bar = Toolbar::getInstance( 'toolbar' );
 		$bar->appendButton( 'Link', 'home-2 cpanel', 'COM_PHOCAPDF_CONTROL_PANEL', 'index.php?option=com_phocapdf' );
 
-		JToolbarHelper::divider();
+		ToolbarHelper::divider();
 		
-		JToolbarHelper::help( 'screen.phocapdf', true );
+		ToolbarHelper::help( 'screen.phocapdf', true );
 		
 	}
 }

@@ -7,8 +7,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
 jimport('joomla.application.component.controller');
-$app		= JFactory::getApplication();
+$app		= Factory::getApplication();
 $option 	= $app->input->get('option');
 
 $l['cp']	= array('COM_PHOCAPDF_CONTROL_PANEL', '');
@@ -17,8 +21,8 @@ $l['f']		= array('COM_PHOCAPDF_FONTS', 'phocapdffonts');
 $l['i']		= array('COM_PHOCAPDF_INFO', 'phocapdfinfo');
 
 // Submenu view
-$view	= JFactory::getApplication()->input->get('view');
-$layout	= JFactory::getApplication()->input->get('layout');
+$view	= Factory::getApplication()->input->get('view');
+$layout	= Factory::getApplication()->input->get('layout');
 
 
 if ($layout == 'edit') {
@@ -32,13 +36,13 @@ if ($layout == 'edit') {
 		}
 
 		if ($view == $v[1]) {
-			JHtmlSidebar::addEntry(JText::_($v[0]), $link.$v[1], true );
+			JHtmlSidebar::addEntry(Text::_($v[0]), $link.$v[1], true );
 		} else {
-			JHtmlSidebar::addEntry(JText::_($v[0]), $link.$v[1]);
+			JHtmlSidebar::addEntry(Text::_($v[0]), $link.$v[1]);
 		}
 	}
 }
-class phocaPdfCpController extends JControllerLegacy
+class phocaPdfCpController extends BaseController
 {
 	function display($cachable = false, $urlparams = array()) {
 		parent::display($cachable, $urlparams);

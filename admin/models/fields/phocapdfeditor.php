@@ -10,12 +10,15 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 
 jimport('joomla.html.editor');
 jimport('joomla.form.formfield');
 
 
-class JFormFieldPhocaPDFEditor extends JFormField
+class JFormFieldPhocaPDFEditor extends FormField
 {
 
 	public $type 			= 'PhocaPDFEditor';
@@ -81,7 +84,7 @@ class JFormFieldPhocaPDFEditor extends JFormField
 				$types = explode('|', $type);
 
 				// Get the database object.
-				$db = JFactory::getDBO();
+				$db = Factory::getDBO();
 
 				// Iterate over teh types looking for an existing editor.
 				foreach ($types as $element) {
@@ -110,7 +113,7 @@ class JFormFieldPhocaPDFEditor extends JFormField
            // $this->editor = JFactory::getEditor($editor ? $editor : null);
 
             if (is_null($editor)){
-                $conf = JFactory::getConfig();
+                $conf = Factory::getConfig();
                 $editor = $conf->get('editor');
             }
 
@@ -129,7 +132,7 @@ class JFormFieldPhocaPDFEditor extends JFormField
 	protected function _setPhocaParams(){
 
 		$component 			= 'com_phocapdf';
-		$paramsC			= JComponentHelper::getParams($component) ;
+		$paramsC			= ComponentHelper::getParams($component) ;
 		$this->phocaParams	= $paramsC;
 	}
 
