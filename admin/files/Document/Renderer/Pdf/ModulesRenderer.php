@@ -1,4 +1,3 @@
-use Joomla\CMS\Factory;
 <?php
 /**
  * Joomla! Content Management System
@@ -14,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML document renderer for a module position

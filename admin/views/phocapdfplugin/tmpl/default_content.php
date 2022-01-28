@@ -93,7 +93,7 @@ echo '<br />' .HTMLHelper::_('image', 'media/com_phocapdf/images/administrator/i
 
 echo '</div>';
 
-echo '<div id="phocapdf-apply"><a href="#" class="btn btn-success" onclick="javascript: submitbutton(\'phocapdfplugin.apply\')"><i class="icon-apply icon-white"></i>&nbsp;&nbsp;'.Text::_('COM_PHOCAPDF_SAVE').'</a></div>';
+echo '<div id="phocapdf-apply"><a href="#" class="btn btn-success" onclick="javascript: Joomla.submitbutton(\'phocapdfplugin.apply\')"><i class="icon-apply icon-white"></i>&nbsp;&nbsp;'.Text::_('COM_PHOCAPDF_SAVE').'</a></div>';
 
 
 

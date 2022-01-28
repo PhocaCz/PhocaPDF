@@ -22914,6 +22914,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 			$svgdata = substr($file, 1);
 		} else { // SVG file
             $file = str_replace('\\', '/', $file);//PHOCAEDIT
+
 			$this->svgdir = dirname($file);
             $svgdata = $this->getCachedFileContents($file);
 		}

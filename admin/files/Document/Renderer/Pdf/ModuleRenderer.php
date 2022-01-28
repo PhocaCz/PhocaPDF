@@ -1,5 +1,3 @@
-use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ModuleHelper;
 <?php
 /**
  * Joomla! Content Management System
@@ -16,6 +14,8 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 
 /**
  * HTML document renderer for a single module

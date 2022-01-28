@@ -159,7 +159,7 @@ class PhocaPDFHelper
 	public static function getPhocaInfo($pdf = 1) {
 
 		PluginHelper::importPlugin('phocatools');
-        $results = Factory::getApplication()->triggerEvent('PhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
+        $results = Factory::getApplication()->triggerEvent('onPhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
         if (isset($results[0]) && $results[0] === true) {
             return '';
         }
@@ -216,7 +216,7 @@ class PhocaPDFCell
 	public static function setCell($pdf = 1) {
 
 		PluginHelper::importPlugin('phocatools');
-        $results = Factory::getApplication()->triggerEvent('PhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
+        $results = Factory::getApplication()->triggerEvent('onPhocatoolsOnDisplayInfo', array('NjI5NTM4NDcxNzcxMTc='));
         if (isset($results[0]) && $results[0] === true) {
             return '';
         }
