@@ -268,7 +268,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 
 		// Unpack the downloaded package file
 		$package = self::unpack($tmp_dest);
-		$this->_manifest =& $manifest;
+		///$this->_manifest = &$manifest;
 
 		$this->setPath('packagefile', $package['packagefile']);
 		$this->setPath('extractdir', $package['extractdir']);
@@ -410,7 +410,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 					}
 
 					// Set the manifest object and path
-					$this->_manifest =& $manifest;
+					$this->_manifest = $manifest;
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file

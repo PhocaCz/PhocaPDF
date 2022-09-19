@@ -38,7 +38,6 @@ class PhocaPDFHelper
 		$pluginP 	= new Registry();
 		$pluginP->loadString($plugin->params);
 
-
 		$include_articles 	= $pluginP->get('include_articles', '');
 		$include_categories = $pluginP->get('include_categories', '');
 
@@ -48,7 +47,7 @@ class PhocaPDFHelper
 		$include_articles 	= array_filter($include_articles);
 		$include_categories = array_filter($include_categories);
 
-		if (!empty($include_articles)) {
+		/*if (!empty($include_articles)) {
 			if(isset($item->id) && !in_array($item->id, $include_articles)) {
 				return "";
 			}
@@ -58,7 +57,29 @@ class PhocaPDFHelper
 			if(isset($item->catid) && !in_array($item->catid, $include_categories)) {
 				return "";
 			}
+		}*/
+
+
+		$include_article = true;
+		$include_category = true;
+
+		if (!empty($include_articles)) {
+			if(isset($item->id) && !in_array($item->id, $include_articles)) {
+				$include_article = false;
+			}
 		}
+
+		if (!empty($include_categories)) {
+			if(isset($item->catid) && !in_array($item->catid, $include_categories)) {
+				$include_category = false;
+			}
+		}
+
+		// If neither article id nor category id is included return ""
+		if(!($include_article || $include_category)){
+			return "";
+		}
+
 
 		$exclude_articles 	= $pluginP->get('exclude_articles', '');
 		$exclude_categories = $pluginP->get('exclude_categories', '');
