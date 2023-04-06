@@ -148,7 +148,7 @@ class PhocaPDFContentTCPDF extends TCPDF
 			$isHTML = false;
 			if ($params['footer_data'] != '') {
 				//$params['footer_data'] = str_replace(utf8_encode("<p>�</p>"), '<p></p>', $params['footer_data']);
-				$params['footer_data'] = str_replace(array(utf8_encode(chr(11)), utf8_encode(chr(160))), ' ', $params['footer_data']);
+				//$params['footer_data'] = str_replace(array(utf8_encode(chr(11)), utf8_encode(chr(160))), ' ', $params['footer_data']);
 				$isHTML = true;
 			}
 

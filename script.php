@@ -76,7 +76,74 @@ class com_phocapdfInstallerScript
 		//$parent->getParent()->setRedirectURL('index.php?option=com_phocapdf');
         return true;
 	}
-	function uninstall($parent) {}
+	function uninstall($parent) {
+
+		// Folders created by Phoca PDF
+		$errFile	= array();
+		$sccFile	= array();
+		$msgError	= '';
+		$msgSuccess	= '';
+
+		$folder	= JPATH_ROOT. '/libraries/src/Document/Renderer/Pdf';
+
+		$file1  = JPATH_ROOT. '/libraries/src/Document/PdfDocument.php';
+		$file2 	= JPATH_ROOT. '/components/com_content/src/View/Article/PdfView.php';
+
+		$success 	= '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS').'</span> - ';
+		$error 		= '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR').'</span> - ';
+		jimport( 'joomla.client.helper' );
+		jimport( 'joomla.filesystem.file' );
+		jimport( 'joomla.filesystem.folder' );
+
+		if(!Folder::delete($folder)) {
+			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_REMOVING_FOLDER' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $folder)
+				.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_ERROR_FOLDER_REMOVING' );
+		} else {
+			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_REMOVING_FOLDER' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $folder)
+			.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_FOLDER_REMOVED' );
+		}
+
+		if(!File::delete($file1)) {
+			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_REMOVING_FILE' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $file1)
+			.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_ERROR_FILE_REMOVING' );
+		} else {
+			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_REMOVING_FILE' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $file1)
+				.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_FILE_REMOVED' );
+		}
+
+		if(!File::delete($file2)) {
+			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_REMOVING_FILE' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $file2)
+			.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_ERROR_FILE_REMOVING' );
+		} else {
+			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_REMOVING_FILE' ). ': '
+			. '<br />&nbsp;&nbsp; - ' . str_replace( JPATH_ROOT . '/', '', $file2)
+			.'<br />&nbsp;&nbsp; - '. Text::_( 'COM_PHOCAPDF_FILE_REMOVED' );
+		}
+
+		if (!empty($sccFile)) {
+			$msgSuccess .= '<br />' . implode("<br />", $sccFile);
+		}
+
+		if (!empty($errFile)) {
+			$msgError .= '<br />' . implode("<br />", $errFile);
+		}
+
+
+		// End Message
+		if ($msgError != '') {
+			$msg = '<span style="font-weight: bold;color:#ff0000;">'.Text::_('COM_PHOCAPDF_ERROR_UPGRADE').'</span>: ' . $msgSuccess . $msgError;
+			Factory::getApplication()->enqueueMessage($msg, 'error');
+		} else {
+			$msg = '<span style="font-weight: bold;color:#00cc00;">'.Text::_('COM_PHOCAPDF_SUCCESS_UPGRADE').'</span>: ' . $msgSuccess;
+			$msg .= Text::_('COM_PHOCAPDF_INSTALLATION_NOT_COMPLETE');
+			Factory::getApplication()->enqueueMessage($msg, 'message');
+		}
+	}
 
 	function update($parent) {
 
