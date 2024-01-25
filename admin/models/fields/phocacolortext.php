@@ -23,15 +23,15 @@ class JFormFieldPhocaColorText extends FormField
 	protected $phocaParams 	= null;
 
 	protected function getInput() {
-	
+
 		$document		= Factory::getDocument();
 		$app			= Factory::getApplication();
 		$option 		= $app->input->get('option');
 		$globalValue 	= $this->_getPhocaParams( $this->element['name'] );
-		
+
 		HTMLHelper::stylesheet( 'administrator/components/com_phocapdf/assets/jcp/picker.css' );
 		$document->addScript(Uri::base(true).'/components/com_phocapdf/assets/jcp/picker.js');
-		
+
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
@@ -40,9 +40,9 @@ class JFormFieldPhocaColorText extends FormField
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		// Initialize JavaScript field attributes.
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
-		
+
 		$value 		= htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		
+
 		// TODO 1.6
 		// MENU - Set Default value to "" because of saving "" value into the menu link ( use global = "")
 		if ($option == "com_menus") {
@@ -52,49 +52,49 @@ class JFormFieldPhocaColorText extends FormField
 			}
 		}
 
-		
+
 		// Color Picker
 		$nameCP = str_replace('[', '_', $this->name);
 		$nameCP = str_replace(']', '', $nameCP);
-		//$html .= '<span style="position:relative;float:left;margin-left:10px;margin-top:3px;" onclick="openPicker(\''.$nameCP.'\')"  class="picker_buttons">' . JText::_('COM_PHOCAPDF_PICK_COLOR') . '</span>';
+		//$html .= '<span style="position:relative;float:left;margin-left:10px;margin-top:3px;" onclick="openPicker(\''.$nameCP.'\')"  class="picker_buttons">' . Text::_('COM_PHOCAPDF_PICK_COLOR') . '</span>';
 		// MENU - Display the global value
 		/*if ($option == "com_menus") {
 			$html .= '<span style="margin-left:10px;">[</span><span style="background:#fff"> ' . $globalValue . ' </span><span>]</span>';
 		}*/
-		
+
 		$html[] = '<div class="input-append">';
 		$html[] = '<input type="text" name="'.$this->name.'" id="'.$this->id.'" value="'.$value.'"'
 			   .$class.$size.$disabled.$readonly.$onchange.$maxLength.'/>';
-		$html[] = '<a class="btn" title="'.Text::_('COM_PHOCAPDF_PICK_COLOR').'"'
+		$html[] = '<a class="btn btn-primary" title="'.Text::_('COM_PHOCAPDF_PICK_COLOR').'"'
 				.' onclick="openPicker(\''.$nameCP.'\')">'
 				. Text::_('COM_PHOCAPDF_PICK_COLOR').'</a>';
 		$html[] = '</div>'. "\n";
-			
+
 		return implode("\n", $html);
 
 	}
-	
+
 	protected function getLabel() {
 		echo '<div class="clearfix"></div>';
 		return parent::getLabel();
 		echo '<div class="clearfix"></div>';
 	}
-	
+
 	protected function _setPhocaParams(){
 
-		
+
 		$component 			= 'com_phocapdf';
 		$paramsC			= ComponentHelper::getParams($component) ;
 		$this->phocaParams	= $paramsC;
 	}
 
 	protected function _getPhocaParams( $name ){
-	
+
 		// Don't call sql query by every param item (it will be loaded only one time)
 		if (!$this->phocaParams) {
 			$params = $this->_setPhocaParams();
 		}
-		$globalValue 	= $this->phocaParams->get( $name, '' );	
+		$globalValue 	= $this->phocaParams->get( $name, '' );
 		return $globalValue;
 	}
 }

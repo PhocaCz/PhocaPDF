@@ -15612,15 +15612,23 @@ class TCPDF {
 	 * @public
 	 */
 	public function write2DBarcode($code, $type, $x='', $y='', $w='', $h='', $style=array(), $align='', $distort=false) {
-		if (TCPDF_STATIC::empty_string(trim($code))) {
+
+        if (TCPDF_STATIC::empty_string(trim($code))) {
 			return;
 		}
-		require_once(dirname(__FILE__).'/tcpdf_barcodes_2d.php');
+
+
+        require_once(dirname(__FILE__).'/tcpdf_barcodes_2d.php');
+
+
 		// save current graphic settings
 		$gvars = $this->getGraphicVars();
 		// create new barcode object
 		$barcodeobj = new TCPDF2DBarcode($code, $type);
+
+
 		$arrcode = $barcodeobj->getBarcodeArray();
+
 		if (($arrcode === false) OR empty($arrcode) OR !isset($arrcode['num_rows']) OR ($arrcode['num_rows'] == 0) OR !isset($arrcode['num_cols']) OR ($arrcode['num_cols'] == 0)) {
 			$this->Error('Error in 2D barcode string');
 		}
@@ -15818,6 +15826,8 @@ class TCPDF {
 				break;
 			}
 		}
+
+
 		$this->endlinex = $this->img_rb_x;
 	}
 
@@ -18997,7 +19007,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 								$imgsrc = substr(JPATH_ROOT, 0, -1).$imgsrc;
 							} else {
 								///$imgsrc = $_SERVER['DOCUMENT_ROOT'].$imgsrc;
-								$tmpJb 		= str_replace('/', '\\', JUri::root(true));//JUri::base(true);
+								$tmpJb 		= str_replace('/', '\\', Joomla\CMS\Uri\Uri::root(true));//JUri::base(true);
 								$tmpIp 		= str_replace('/', '\\', $imgsrc);
 								$tmpIpWJb	= str_replace($tmpJb, '', $tmpIp);
 

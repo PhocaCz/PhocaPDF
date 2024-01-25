@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
-JHtml::_('behavior.tooltip');
+HtmlHelper::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 ?>
 <div id="phocapdf">
@@ -40,11 +40,11 @@ jimport('joomla.filesystem.file');
 			} else {
 				echo Text::_('COM_PHOCAPDF_PLUGIN_NOT_EXIST');
 			}
-				
+
 		} else {
 			echo Text::_('COM_PHOCAPDF_NO_PHOCAPDF_PLUGIN_INSTALLED');
 		}
-		
+
 
 		?><div class="phoca-plugins-ie">&nbsp;</div>
 		</div>

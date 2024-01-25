@@ -129,14 +129,14 @@ class PhocaPDFHelper
 			$text = HTMLHelper::_('image','media/com_phocapdf/images/pdf_button.png', Text::_('PLG_PHOCAPDF_CONTENT_PDF'));
 		} else {
 			if ($params->get('show_print_icon')) {
-				//$sep = JText::_('JGLOBAL_ICON_SEP');
+				//$sep = Text::_('JGLOBAL_ICON_SEP');
 				$sep = '';
 			} else if ($params->get('show_email_icon')) {
 				$sep = Text::_('JGLOBAL_ICON_SEP');
 			} else {
 				$sep = '';
 			}
-			//$text = '&#160;'. JText::_('PLG_PHOCAPDF_CONTENT_PDF') .'&#160;'. $sep;
+			//$text = '&#160;'. Text::_('PLG_PHOCAPDF_CONTENT_PDF') .'&#160;'. $sep;
 
 			$text =  Text::_('PLG_PHOCAPDF_CONTENT_PDF') . $sep;
 		}*/
@@ -148,7 +148,7 @@ class PhocaPDFHelper
 
 
 		//$output = '<li class="print-icon">'
-		// . JHtml::_('link',JRoute::_($url), '<span class="icon-file"></span>&#160;' .$text. '&#160;', $attribs)
+		// . HtmlHelper::_('link',JRoute::_($url), '<span class="icon-file"></span>&#160;' .$text. '&#160;', $attribs)
 		//.'</li>';
 		$output = '<div class="pdf-print-icon">'
 		 . '<a class="btn btn-danger" href="'.Route::_($url).'" onclick="'.$attribs['onclick'].'" target="'.$attribs['target'].'"><span class="glyphicon glyphicon-file icon-file"></span> ' .$text. '</a>'
@@ -215,7 +215,7 @@ class PhocaPDFHelper
 		{
 			foreach ($xmlFilesInDir as $xmlfile)
 			{
-				if ($data = JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
+				if ($data = Installer::parseXMLInstallFile($folder.'/'.$xmlfile)) {
 					foreach($data as $key => $value) {
 						$xml_items[$key] = $value;
 					}

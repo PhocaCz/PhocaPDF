@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <updates>
 	<update>
 		<name><![CDATA[ Phoca PDF ]]></name>
@@ -12,7 +13,6 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/3.0.12/com_phocapdf_v3.0.12.zip</downloadurl>
 		</downloads>
-		<sha512>fc29630d2deeb395e3712c7c2ad094a5b4d7e157b0ae0d5889132478b8786101d8b99d3e082ee04afb0aa5f122c1a13fd4c2bd1a163731064804e6a053204231</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -35,14 +35,36 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/4.0.1/com_phocapdf_v4.0.1.zip</downloadurl>
 		</downloads>
-		<sha512>fc29630d2deeb395e3712c7c2ad094a5b4d7e157b0ae0d5889132478b8786101d8b99d3e082ee04afb0aa5f122c1a13fd4c2bd1a163731064804e6a053204231</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
 		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
-		<targetplatform name="joomla" version="4.[012]"/>
+		<targetplatform name="joomla" version="4\.*"/>
+		<client>administrator</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca PDF ]]></name>
+		<description><![CDATA[ Phoca PDF is Joomla! CMS component. It helps to set and create PDF documents in Joomla!. The whole Phoca PDF framework contains: 
+- Phoca PDF component 
+- Phoca PDF fonts 
+- Phoca PDF plugins. ]]></description>
+		<element>com_phocapdf</element>
+		<type>component</type>
+		<version>5.0.0</version>
+		<infourl title="Phoca PDF 5.0.0">http://www.phoca.cz/version/index.php?phocapdf=5.0.0</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/5.0.0/com_phocapdf_v5.0.0.zip</downloadurl>
+		</downloads>
+		<sha512>071dc7d281764a420add3ede0f30d7531dd8f1ffa20318abda21b4f37bbcfc6c6d6e27b3e0240f36dee4ab6a15e06f5225ef29afb35e0135452a05c83cc589c4</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="(4|5)\.*"/>
 		<client>administrator</client>
 	</update>
 </updates>

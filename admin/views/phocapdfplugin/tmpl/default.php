@@ -14,9 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\File;
-//JHtml::_('behavior.tooltip');
-//JHtml::_('behavior.formvalidation');
-//JHtml::_('formbehavior.chosen', 'select');
+use Joomla\CMS\Factory;
+//HtmlHelper::_('behavior.tooltip');
+//HtmlHelper::_('behavior.formvalidation');
+//HtmlHelper::_('formbehavior.chosen', 'select');
 
 
 //$route = 'index.php?option=com_phocapdf&view=phocapdfplugins';
@@ -50,7 +51,7 @@ Joomla.submitbutton = function(task){
 </script>
 */
 
-JFactory::getDocument()->addScriptDeclaration(
+Factory::getDocument()->addScriptDeclaration(
 
 'Joomla.submitbutton = function(task) {
 	if (task == "'. $this->t['task'].'.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
@@ -67,9 +68,8 @@ JFactory::getDocument()->addScriptDeclaration(
 <form action="<?php echo Route::_($route); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
 
 
-<table border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td valign="top">
+<div class="plugin-box">
+	<div class="plugin-box-name">
 		<ul class="phoca-plugins-menu">
 		<?php
 		foreach ($this->items as $key => $value) {
@@ -79,8 +79,8 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		?>
 		</ul>
-		</td>
-		<td valign="top">
+    </div>
+    <div class="plugin-box-content">
 		<div class="phoca-plugins"><?php
 
 
@@ -99,9 +99,8 @@ JFactory::getDocument()->addScriptDeclaration(
 		?><div class="phoca-plugins-ie">&nbsp;</div>
 		</div>
 
-		</td>
-	</tr>
-</table>
+    </div>
+</div>
 
 <div class="clearfix"></div>
 <input type="hidden" name="jform[folder]" id="jform_folder" value="<?php echo $this->item->folder; ?>" />

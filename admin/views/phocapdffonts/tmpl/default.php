@@ -163,7 +163,7 @@ echo $rw->endTabs();
 
 echo '<div class="ph-cp-hr"></div>';
 
-echo '<div class="btn-group" style="float:left;"><a class="btn btn-large btn-info" href="https://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
+echo '<div class="btn-group" style="float:left;"><a class="btn btn-large btn-info" href="https://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  Text::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
 echo '<div class="clearfix"></div>';
 
 echo '</div>';

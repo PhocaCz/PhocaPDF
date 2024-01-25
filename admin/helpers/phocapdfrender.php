@@ -9,15 +9,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 
-use Joomla\CMS\Factory;
-use Joomla\String\StringHelper;
-
 defined('JPATH_BASE') or die();
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\String\StringHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Plugin\CMSPlugin;
+
 jimport('joomla.filesystem.file');
 
 class PhocaPDFRender extends Document
@@ -27,7 +28,7 @@ class PhocaPDFRender extends Document
 
 		// LOADING OF HELPER FILES (extended TCPDF library), LISTENING TO Phoca PDF Plugins
 		$option = Factory::getApplication()->input->getCmd('option');
-		$t 		= \Joomla\String\StringHelper::ucfirst(str_replace('com_', '', $option));
+		$t 		= StringHelper::ucfirst(str_replace('com_', '', $option));
 
 		// Used abstract class of Phoca PDF (e.g. in VM)
 		if ($option == 'com_phocapdf') {
@@ -368,7 +369,7 @@ class PhocaPDFRender extends Document
 		if(!defined('K_PATH_URL'))				{define("K_PATH_URL", JPATH_BASE);}// URL path
 		if(!defined('K_PATH_FONTS'))	        {define("K_PATH_FONTS", JPATH_ADMINISTRATOR.'/components/com_phocapdf/fonts/');}
 		if(!defined('K_PATH_CACHE'))			{define("K_PATH_CACHE", K_PATH_MAIN.'/cache/');}// Cache directory path
-		$urlPath = JUri::base(true) . '/administrator/components/com_phocapdf/assets/tcpdf/';// Cache URL path
+		$urlPath = Uri::base(true) . '/administrator/components/com_phocapdf/assets/tcpdf/';// Cache URL path
 		if(!defined('K_PATH_URL_CACHE'))		{define("K_PATH_URL_CACHE", $urlPath.'cache/');}
 		if(!defined('K_PATH_IMAGES'))			{define("K_PATH_IMAGES", K_PATH_MAIN.'/images/');}// Images path
 		if(!defined('K_BLANK_IMAGE'))			{define("K_BLANK_IMAGE", K_PATH_IMAGES."/_blank.png");}// Blank image path

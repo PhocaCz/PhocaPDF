@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -9,7 +9,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -19,9 +19,9 @@ echo '<div id="phocapdf-pane">';
 echo HTMLHelper::_('tabs.start', 'config-tabs-com_phocapdf-plugin', array('useCookie'=>1));
 //echo $pane->startPane( 'pane' );
 
-// - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - -
 // Site
-//echo $pane->startPanel( JHtml::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-site.png','') . '&nbsp;'.JText::_('COM_PHOCAPDF_SITE'), 'site' );
+//echo $pane->startPanel( HtmlHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-site.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_SITE'), 'site' );
 
 echo HTMLHelper::_('tabs.panel', HTMLHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-site.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_SITE'), 'site');
 echo '<div style="font-size:1px;height:1px;margin:0px;padding:0px;">&nbsp;</div>';//because of IE bug
@@ -33,9 +33,9 @@ if($output = PhocaPDFHelperParams::renderSite($this->params, 'params', 'phocasit
 //echo $pane->endPanel();
 // - - - - - - - - - - - - - - -
 
-// - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - -
 // Header
-//echo $pane->startPanel( JHtml::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-header.png','') . '&nbsp;'.JText::_('COM_PHOCAPDF_HEADER'), 'header' );
+//echo $pane->startPanel( HtmlHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-header.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_HEADER'), 'header' );
 echo HTMLHelper::_('tabs.panel', HTMLHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-header.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_HEADER'), 'header');
 echo '<div style="font-size:1px;height:1px;margin:0px;padding:0px;">&nbsp;</div>';//because of IE bug
 if($output = PhocaPDFHelperParams::renderMisc($this->params, 'params', 'phocaheader')) {
@@ -46,9 +46,9 @@ if($output = PhocaPDFHelperParams::renderMisc($this->params, 'params', 'phocahea
 //echo $pane->endPanel();
 // - - - - - - - - - - - - - - -
 
-// - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - -
 // Footer
-//echo $pane->startPanel( JHtml::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-footer.png','') . '&nbsp;'.JText::_('COM_PHOCAPDF_FOOTER'), 'footer' );
+//echo $pane->startPanel( HtmlHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-footer.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_FOOTER'), 'footer' );
 echo HTMLHelper::_('tabs.panel', HTMLHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-footer.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_FOOTER'), 'footer');
 echo '<div style="font-size:1px;height:1px;margin:0px;padding:0px;">&nbsp;</div>';//because of IE bug
 if($output = PhocaPDFHelperParams::renderMisc($this->params, 'params', 'phocafooter')) {
@@ -59,9 +59,9 @@ if($output = PhocaPDFHelperParams::renderMisc($this->params, 'params', 'phocafoo
 //echo $pane->endPanel();
 // - - - - - - - - - - - - - - -
 
-// - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - -
 // PDF
-//echo $pane->startPanel( JHtml::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-pdf.png','') . '&nbsp;'.JText::_('COM_PHOCAPDF_PDF'), 'pdf' );
+//echo $pane->startPanel( HtmlHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-pdf.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_PDF'), 'pdf' );
 echo HTMLHelper::_('tabs.panel', HTMLHelper::_( 'image', 'administrator/components/com_phocapdf/assets/images/icon-16-pdf.png','') . '&nbsp;'.Text::_('COM_PHOCAPDF_PDF'), 'pdf');
 echo '<div style="font-size:1px;height:1px;margin:0px;padding:0px;">&nbsp;</div>';//because of IE bug
 if($output = PhocaPDFHelperParams::renderMisc($this->params, 'params', 'phocapdf')) {
@@ -77,8 +77,8 @@ echo HTMLHelper::_('tabs.end');
 echo '</div>';
 
 echo '<div id="phocapdf-apply"><a href="#" onclick="javascript: submitbutton(\'apply\')">'.Text::_('Save').'</a></div>';
-	
-echo '<div style="margin-top:20px">';	
+
+echo '<div style="margin-top:20px">';
 if (isset($this->tmpl['plugin']->published)) {
 	if ($this->tmpl['plugin']->published == 1) {
 		echo HTMLHelper::_('image', 'administrator/components/com_phocapdf/assets/images/icon-16-true.png', '' )
@@ -87,7 +87,7 @@ if (isset($this->tmpl['plugin']->published)) {
 		echo HTMLHelper::_('image', 'administrator/components/com_phocapdf/assets/images/icon-16-false.png', '' )
 		.' '. Text::_('Plugin is disabled in Plugin Manager');
 	}
-	
+
 }
 
 echo '<br />' .HTMLHelper::_('image', 'administrator/components/com_phocapdf/assets/images/icon-16-warning.png','' )

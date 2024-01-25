@@ -68,12 +68,17 @@ class PhocaPDFCpViewPhocaPDFPlugin extends HtmlView
 					$value->current = '';
 				}
 			}
+
+
 			$value->name = str_replace('Phoca PDF - ', '', $value->name);
 
 			$lang->load($value->name);
-
 			$link		 = 'index.php?option=com_phocapdf&view=phocapdfplugin&task=phocapdfplugin.edit&extension_id='.(int)$value->extension_id;
-			$value->link = '<a href="'.$link.'">'. str_replace('Phoca PDF ', '', Text::_($value->name)).'</a>';
+
+            $title = str_replace('Phoca PDF - ', '', Text::_($value->name));
+            $title = str_replace('Phoca PDF', '', $title);
+
+            $value->link = '<a href="'.$link.'">'. $title .'</a>';
 			$i++;
 		}
 
@@ -95,7 +100,7 @@ class PhocaPDFCpViewPhocaPDFPlugin extends HtmlView
 		$bar = Toolbar::getInstance( 'toolbar' );
 		//$bar->appendButton( 'Link', 'back', 'COM_PHOCAPDF_CONTROL_PANEL', 'index.php?option=com_phocapdf' );
 
-		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-small"><i class="icon-home-2" title="'.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
+		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-primary btn-small"><i class="icon-home-2" title="'.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
 		$bar->appendButton('Custom', $dhtml);
 
 		if ($canDo->get('core.edit')) {

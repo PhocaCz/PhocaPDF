@@ -50,13 +50,13 @@ echo '<h3>'.  Text::_($this->t['l'] . '_TRANSLATION').': '. Text::_($this->t['l'
 
 
 echo '<div class="ph-cp-hr"></div>'
-.'<div class="btn-group ph-cp-btn-update"><a class="btn btn-large btn-primary" href="https://www.phoca.cz/version/index.php?'.$this->t['c'].'='.  $this->t['version'] .'" target="_blank"><i class="icon-loop icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_UPDATE') .'</a></div>';
+.'<div class="btn-group ph-cp-btn-update"><a class="btn btn-large btn-primary" href="https://www.phoca.cz/version/index.php?'.$this->t['c'].'='.  $this->t['version'] .'" target="_blank"><i class="icon-loop icon-white"></i>&nbsp;&nbsp;'.  Text::_($this->t['l'] . '_CHECK_FOR_UPDATE') .'</a></div>';
 
-echo '<div class="btn-group ph-cp-btn-update"><a class="btn btn-info" href="https://www.phoca.cz/phocapdf-plugins" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_PLUGINS') .'</a></div>';
+echo '<div class="btn-group ph-cp-btn-update"><a class="btn btn-info" href="https://www.phoca.cz/phocapdf-plugins" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  Text::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_PLUGINS') .'</a></div>';
 
-echo '<div class="btn-group ph-cp-btn-update"><a class="btn btn-info" href="https://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
+echo '<div class="btn-group ph-cp-btn-update"><a class="btn btn-info" href="https://www.phoca.cz/phocapdf-fonts" target="_blank"><i class="icon-share icon-white"></i>&nbsp;&nbsp;'.  Text::_($this->t['l'] . '_CHECK_FOR_AVAILABLE_FONTS') .'</a></div>';
 
-echo '<div class="ph-cp-logo-footer"><a href="https://www.phoca.cz/" target="_blank">'.JHtml::_('image', $this->t['i'] . 'logo.png', 'Phoca.cz' ).'</a></div>';
+echo '<div class="ph-cp-logo-footer"><a href="https://www.phoca.cz/" target="_blank">'.HtmlHelper::_('image', $this->t['i'] . 'logo.png', 'Phoca.cz' ).'</a></div>';
 echo '<div class="ph-cb"></div>';
 
 

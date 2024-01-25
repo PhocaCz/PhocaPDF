@@ -350,7 +350,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 											$errorMsg .= $value3 . ': '.Text::_('COM_PHOCAPDF_FILE_COULD_NOT_BE_DELETED') . '<br />';
 										}
 									} else {
-										// $errorMsg .= $value3 . ': '.JText::_('This file doesn\'t exist') . '<br />';
+										// $errorMsg .= $value3 . ': '.Text::_('This file doesn\'t exist') . '<br />';
 									}
 								}
 							}

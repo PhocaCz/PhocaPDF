@@ -192,6 +192,7 @@ class TCPDF2DBarcode {
 	 */
 	public function getBarcodePngData($w=3, $h=3, $color=array(0,0,0)) {
 		// calculate image size
+
 		$width = ($this->barcode_array['num_cols'] * $w);
 		$height = ($this->barcode_array['num_rows'] * $h);
 		if (function_exists('imagecreate')) {

@@ -267,20 +267,42 @@ div.icon-48-font {
 	color: #777;
 }
 
+
+#phocapdf .plugin-box {
+	display: flex;
+
+}
+
+#phocapdf .plugin-box-name {
+	flex: 1;
+	width: 20%;
+}
+
+#phocapdf .plugin-box-content {
+	flex: 3;
+	width: 80%;
+}
+
 #phocapdf ul.phoca-plugins-menu {
 
 	list-style-type: none;
 	padding:		0px;
 	margin: 		0px;
-z-index:			1;	
-float:left;
-position:relative;
+	z-index:			1;	
+	float:left;
+	position:relative;
+	width: 100%;
 }
 #phocapdf ul.phoca-plugins-menu li {
 	list-style-type: 	none;
 	padding:			5px 10px 5px 10px;
 	z-index:			1;
 	
+}
+
+#phocapdf div .form-control {
+    display: inline-block;
+    width: auto;
 }
 
 #phocapdf ul.phoca-plugins-menu li.current {

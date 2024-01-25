@@ -49,12 +49,12 @@ class JFormFieldPhocaPDFEditor extends FormField
 		if ($globalValue == '') {
 			$globalValue = 1;
 		}
-		$widthE = $width + 200;
+		$widthE = $width;// + 200;
 		if ($globalValue == 1) {
 			// Get an editor object.
 			$editor = $this->getEditor();
 
-			$editorOutput = '<div style="width:'.$widthE.'px">'. $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons ? (is_array($buttons) ? array_merge($buttons,$hide) : $hide) : false, $this->id).'</div>';
+			$editorOutput = '<div style="width:'.$widthE.'">'. $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons ? (is_array($buttons) ? array_merge($buttons,$hide) : $hide) : false, $this->id).'</div>';
 
 			return $editorOutput;
 		}

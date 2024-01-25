@@ -127,7 +127,7 @@ class PhocaPDFCpModelPhocaPDFPlugin extends AdminModel
 
 			// Convert to the JObject before adding other data.
 			$prop = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($prop, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($prop, CMSObject::class);
 
 			// Convert the params field to an array.
 

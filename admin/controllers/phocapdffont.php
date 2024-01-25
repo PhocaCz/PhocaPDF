@@ -29,7 +29,7 @@ class PhocaPDFCpControllerPhocaPDFFont extends FormController
 
 	function delete() {
 
-		$cid 	= JFactory::getApplication()->input->get( 'cid', array(), 'array' );// POST (Icon), GET (Small Icon)
+		$cid 	= Factory::getApplication()->input->get( 'cid', array(), 'array' );// POST (Icon), GET (Small Icon)
 		ArrayHelper::toInteger($cid);
 
 		if (count($cid ) < 1) {

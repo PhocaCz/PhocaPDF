@@ -35,7 +35,7 @@ class PhocaPDFCpViewPhocaPDFInfo extends HtmlView
 		//JToolbarHelper::cancel( 'cancel', 'COM_PHOCAPDF_CLOSE' );
 
 		$bar = Toolbar::getInstance( 'toolbar' );
-		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-small"><i class="icon-home-2" title="'.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
+		$dhtml = '<a href="index.php?option=com_phocapdf" class="btn btn-primary btn-small"><i class="icon-home-2" title="'.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'"></i> '.Text::_('COM_PHOCAPDF_CONTROL_PANEL').'</a>';
 		$bar->appendButton('Custom', $dhtml);
 
 		ToolbarHelper::divider();
