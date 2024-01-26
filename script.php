@@ -529,8 +529,6 @@ class com_phocapdfInstallerScript
 
             $o .= '</div>';//g5i
             echo $o;
-
-            echo $o;
         }
 
         return true;

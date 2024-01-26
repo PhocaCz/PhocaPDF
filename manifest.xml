@@ -57,7 +57,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/5.0.0/com_phocapdf_v5.0.0.zip</downloadurl>
 		</downloads>
-		<sha512>071dc7d281764a420add3ede0f30d7531dd8f1ffa20318abda21b4f37bbcfc6c6d6e27b3e0240f36dee4ab6a15e06f5225ef29afb35e0135452a05c83cc589c4</sha512>
+		<sha512>f6567cb85825ca945297a91e60dedc318cb04aae31be5ce5d5df489839bc1384861ec45eede730df45598ba2b97b3d0caa213dc1fce34955980043cd731a2350</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
