@@ -16,7 +16,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 jimport('joomla.filesystem.file');
@@ -64,7 +64,7 @@ class PhocaPDFRender extends Document
 				PluginHelper::importPlugin('phocapdf', 'content');
 				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFContent', array (&$content));
 
-				if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
+				if (is_file(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
 					require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php');
 					$pdf = new PhocaPDFContentTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -86,7 +86,7 @@ class PhocaPDFRender extends Document
 
 				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFRestaurantMenu', array (&$content));
 
-				if (File::exists(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php')) {
+				if (is_file(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/restaurantmenu/restaurantmenu.php');
 					$pdf = new PhocaPDFRestaurantMenuTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -105,7 +105,7 @@ class PhocaPDFRender extends Document
 
 				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array (&$content, $staticData));
 
-				if (File::exists(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php')) {
+				if (is_file(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/phocacart/phocacart.php');
 					$pdf = new PhocaPDFPhocaCartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 				} else {
@@ -125,7 +125,7 @@ class PhocaPDFRender extends Document
 
 				$results 	= Factory::getApplication()->triggerEvent('onBeforeCreatePDFVirtueMart', array (&$content, $staticData));
 
-				if (File::exists(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php')) {
+				if (is_file(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php')) {
 					require_once(JPATH_SITE.'/plugins/phocapdf/virtuemart/virtuemart.php');
 					$pdf = new PhocaPDFVirtueMartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 					$pdf->setStaticData($staticData);
@@ -142,7 +142,7 @@ class PhocaPDFRender extends Document
 			   if (JPluginhelper::isEnabled('phocapdf',strtolower($t))){
 				  PluginHelper::importPlugin( 'phocapdf' );
 					$results = Factory::getApplication()->triggerEvent('onBeforeCreatePDF'.$t, array(&$content));
-					if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
+					if (is_file(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php')) {
 						require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfcontenttcpdf.php');
 						$pdf = new PhocaPDFContentTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
 						$results = Factory::getApplication()->triggerEvent('onBeforeDisplayPDF'.$t, array (&$pdf, &$content, &$document));
@@ -280,7 +280,7 @@ class PhocaPDFRender extends Document
         PluginHelper::importPlugin('phocapdf');
         $results = Factory::getApplication()->triggerEvent('onBeforeCreatePDFPhocaCart', array(&$content, $staticData));
 
-        if (File::exists(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php')) {
+        if (is_file(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php')) {
             require_once(JPATH_SITE . '/plugins/phocapdf/phocacart/phocacart.php');
             $pdf = new PhocaPDFPhocaCartTCPDF($content->page_orientation, 'mm', $content->page_format, true, 'UTF-8', $content->use_cache);
         } else {

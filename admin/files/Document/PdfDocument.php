@@ -12,9 +12,9 @@
 namespace Joomla\CMS\Document;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+//use Joomla\CMS\Filesystem\File;
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 jimport('joomla.application.module.helper');
 jimport('joomla.document.document');
 jimport('joomla.filesystem.file');
@@ -100,7 +100,7 @@ class PdfDocument extends Document
 
 		//$this->_caching = $caching;
 		//Call static function because of using on different places by different extensions
-		if (File::exists(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
+		if (is_file(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php')) {
 			require_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfrender.php');
 		} else {
 			throw new Exception('Document cannot be created - Loading of Phoca PDF library (Render) failed', 500);

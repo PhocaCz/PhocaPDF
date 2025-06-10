@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die();
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 jimport( 'joomla.application.component.modellist' );
 jimport( 'joomla.installer.installer' );
@@ -186,7 +186,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 			return false;
 		}
 
-		if ($package['dir'] && Folder::exists($package['dir'])) {
+		if ($package['dir'] && PhocaPDFHelper::folderExists($package['dir'])) {
 			$this->setPath('source', $package['dir']);
 		} else {
 			$app->enqueueMessage(Text::_('COM_PHOCAPDF_INSTALL_PATH_NOT_EXIST'), 'error');
@@ -343,7 +343,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 						if (isset($value2->files)) {
 							foreach($value2->files as $key3 => $value3) {
 								if ($value3 != 'index.html') {
-									if (File::exists($this->getPathDest() . '/' . $value3)) {
+									if (PhocaPDFHelper::fileExists($this->getPathDest() . '/' . $value3)) {
 										if(File::delete($this->getPathDest() . '/' . $value3)) {
 
 										} else {
@@ -357,7 +357,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 
 							// Delete the manifest file too
 							if (isset($value2->manifestfile)) {
-								if (File::exists($value2->manifestfile)) {
+								if (PhocaPDFHelper::fileExists($value2->manifestfile)) {
 									if(File::delete($value2->manifestfile)) {
 
 									} else {
@@ -522,7 +522,7 @@ class PhocaPDFCpModelPhocaPDFFonts extends ListModel
 
 		if (count($dirList) == 1)
 		{
-			if (Folder::exists($extractdir . '/' . $dirList[0]))
+			if (PhocaPDFHelper::folderExists($extractdir . '/' . $dirList[0]))
 			{
 				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
 			}

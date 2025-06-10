@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 use Joomla\CMS\Factory;
 //HtmlHelper::_('behavior.tooltip');
 //HtmlHelper::_('behavior.formvalidation');
@@ -85,7 +85,7 @@ Factory::getDocument()->addScriptDeclaration(
 
 
 		if(isset($this->item->element)) {
-			if (File::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->item->element.'.php')) {
+			if (PhocaPDFHelper::fileExists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->item->element.'.php')) {
 
 				echo $this->loadTemplate($this->item->element);
 			} else {

@@ -11,8 +11,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\File;
 jimport( 'joomla.filesystem.folder' );
 
 class com_phocapdfInstallerScript
@@ -270,7 +270,6 @@ class com_phocapdfInstallerScript
 		} else {
 			$sccFile[]	= $success . Text::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath1);
 		}*/
-
 		if(!Folder::create($folderPath2, 0755)) {
 			$errFile[]	= $error . Text::_( 'COM_PHOCAPDF_FOLDER_CREATING' ). ': ' . str_replace( JPATH_ROOT . '/', '', $folderPath2);
 		} else {

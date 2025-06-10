@@ -13,12 +13,13 @@ include_once(JPATH_ADMINISTRATOR.'/components/com_phocapdf/helpers/phocapdfbrows
 defined('_JEXEC') or die();
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 class PhocaPDFHelper
 {
@@ -199,11 +200,11 @@ class PhocaPDFHelper
 
 	public static function getPhocaVersion($component) {
 		$folder = JPATH_ADMINISTRATOR.'/components'.'/'.$component;
-		if (Folder::exists($folder)) {
+		if (PhocaPDFHelper::folderExists($folder)) {
 			$xmlFilesInDir = Folder::files($folder, '.xml$');
 		} else {
 			$folder = JPATH_SITE .'/'. 'components'.'/'.$component;
-			if (Folder::exists($folder)) {
+			if (PhocaPDFHelper::folderExists($folder)) {
 				$xmlFilesInDir = Folder::files($folder, '.xml$');
 			} else {
 				$xmlFilesInDir = null;
@@ -228,6 +229,14 @@ class PhocaPDFHelper
 		} else {
 			return '';
 		}
+	}
+
+	public static function fileExists($file) {
+    return is_file(Path::clean($file));
+}
+
+	public static function folderExists($path) {
+		return is_dir(Path::clean($path));
 	}
 
 }

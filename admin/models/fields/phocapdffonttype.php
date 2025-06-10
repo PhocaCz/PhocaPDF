@@ -10,7 +10,7 @@ defined('_JEXEC') or die();
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 
 
 class JFormFieldPhocaPDFFontType extends FormField

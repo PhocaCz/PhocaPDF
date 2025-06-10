@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Pdf;
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Helper\ModuleHelper;

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 use Joomla\CMS\Language\Text;
 HtmlHelper::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
@@ -34,7 +34,7 @@ jimport('joomla.filesystem.file');
 		<td valign="top">
 		<div class="phoca-plugins"><?php
 		if(isset($this->tmpl['plugin']->element)) {
-			if (File::exists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->tmpl['plugin']->element.'.php')) {
+			if (PhocaPDFHelper::fileExists(JPATH_COMPONENT_ADMINISTRATOR.'/views/phocapdfplugins/tmpl/default_'.$this->tmpl['plugin']->element.'.php')) {
 
 				echo $this->loadTemplate($this->tmpl['plugin']->element);
 			} else {
