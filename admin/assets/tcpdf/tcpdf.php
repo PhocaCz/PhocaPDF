@@ -17292,12 +17292,12 @@ class TCPDF {
 	}
 
 
-	// PHOCAEDIT
+	// PHOCAEDIT OBSOLETE
 	public function serializeTCPDFtagParameters($data) {
 		return $this->serializeTCPDFtag($data);
 	}
 
-	// PHOCAEDIT
+	// PHOCAEDIT OBSOLETE
 	protected function unserializeTCPDFtagParameters($data) {
 		return $this->unserializeTCPDFtag($data);
 	}

@@ -2,12 +2,12 @@
 <extension type="component" method="upgrade" version="5.0">
 	<name>com_phocapdf</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>10/06/2025</creationDate>
+	<creationDate>10/07/2025</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>5.1.0</version>
+	<version>5.2.0</version>
 	<description>COM_PHOCAPDF_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 	<projectName>PhocaPDF</projectName>

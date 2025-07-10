@@ -398,5 +398,16 @@ class PhocaPDFRender extends Document
 		if(!defined('PDF_FONT_SIZE_DATA'))		{define('PDF_FONT_SIZE_DATA', 8);}// data font size
 		if(!defined('PDF_IMAGE_SCALE_RATIO'))	{define('PDF_IMAGE_SCALE_RATIO', 4);}// Ratio used to scale the images
 		if(!defined('K_TCPDF_CALLS_IN_HTML'))	{define('K_TCPDF_CALLS_IN_HTML', true);}
+
+
+        $option = Factory::getApplication()->input->getCmd('option');
+
+        if ($option == 'com_phocacart') {
+            if(!defined('K_TCPDF_CALLS_IN_HTML'))	{define('K_TCPDF_CALLS_IN_HTML', true);}
+            if(!defined('K_ALLOWED_TCPDF_TAGS'))	{define('K_ALLOWED_TCPDF_TAGS', '|AddPage|Image|ImageSVG|writeHTMLCell|write1DBarcode|write2DBarcode|');}
+        } else {
+            if(!defined('K_TCPDF_CALLS_IN_HTML'))	{define('K_TCPDF_CALLS_IN_HTML', false);}
+            if(!defined('K_ALLOWED_TCPDF_TAGS'))	{define('K_ALLOWED_TCPDF_TAGS', '');}
+        }
     }
 }
