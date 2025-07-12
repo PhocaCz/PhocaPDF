@@ -52,12 +52,12 @@
 - Phoca PDF plugins. ]]></description>
 		<element>com_phocapdf</element>
 		<type>component</type>
-		<version>5.2.0</version>
-		<infourl title="Phoca PDF 5.2.0">http://www.phoca.cz/version/index.php?phocapdf=5.2.0</infourl>
+		<version>5.2.1</version>
+		<infourl title="Phoca PDF 5.2.1">http://www.phoca.cz/version/index.php?phocapdf=5.2.1</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/5.2.0/com_phocapdf_v5.2.0.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaPDF/releases/download/5.2.1/com_phocapdf_v5.2.1.zip</downloadurl>
 		</downloads>
-		<sha512>d5ab2a323f7de1969bc386384d2db4c5d8374bb030d3a35b1f4c0fc865c5831b511a99544a688aff649842b6736be9e12c94d6c552435f1ed5a86f52e8cd3b9b</sha512>
+		<sha512>c8d840fc77cbf19d9ec9daa41e21c00e0423e40b4a349a8e9abf1eb8444275956c5387555dac2e3a0cb3f46eea4b42c546f520be4d7ded7fa1dcc42530ff4e01</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>

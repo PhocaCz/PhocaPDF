@@ -253,7 +253,7 @@ class PdfView extends BaseHtmlView
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 */
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
+        $this->pageclass_sfx = htmlspecialchars((string)$this->item->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 		//$this->_prepareDocument();
 
